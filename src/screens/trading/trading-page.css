@@ -1,0 +1,121 @@
+body {
+	/* background:#0b33c4; */
+	background:#0b40b9;
+	background-image: url('../../assets/bg-1.png');
+}
+.trading-page {
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	background-color: rgba(0,0,0,0.75);
+	border-radius: 10px;
+	padding:20px;
+	box-sizing: border-box;
+	width:500px;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	color:#A4A4A4;
+}
+.trading-page .container-icon {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 15px 0px;
+}
+.trading-page .icon {
+	text-align: center;
+	font-size:25px;
+}
+.trading-top {
+	border: 0.5px solid #A4A4A4;
+	border-radius: 10px;
+	padding:20px;
+	color:#A4A4A4;
+}
+.trading-top span {
+	font-size:18px;
+	line-height: 20px;
+	font-weight: 400;
+	font-weight: 600;
+}
+.trading-top input {
+	outline: none;
+	padding: 0 !important;
+	background-color: transparent;
+	border: none;
+	color:#A4A4A4;
+	font-size: 30px;
+	width:120px;
+}
+.trading-top .input-container {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+.trading-top .input-container img {
+	width:40px;
+	height:40px;
+}
+.trading-top .token-select-input {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.trading-top .token-select-input .token-selector span {
+	margin: 0px 10px;
+}
+.trading-bottom {
+	border: 0.5px solid #A4A4A4;
+	border-radius: 10px;
+	padding:20px;
+	color:#A4A4A4;
+}
+.trading-bottom span {
+	font-size:18px;
+	line-height: 20px;
+	font-weight: 400;
+}
+.trading-bottom input {
+	outline: none;
+	padding: 0 !important;
+	background-color: transparent;
+	border: none;
+	color:#A4A4A4;
+	font-size: 30px;
+	width:120px;
+}
+.trading-bottom .input-container {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+.trading-bottom .input-container img {
+	width:40px;
+	height:40px;
+}
+.trading-bottom .token-select-output {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.trading-bottom .token-select-output .token-selector span {
+	font-weight: 600;
+	margin: 0px 10px;
+}
+.btn-primary {
+	background-color: #325AB7;
+	color:white;
+	border-radius: 10px;
+	padding:20px 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top:40px;
+}
