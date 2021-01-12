@@ -91,9 +91,15 @@ export const SelectToken = () => {
                 <div className="input-token">
                     <input type="text" placeholder="Search name or paste address"/>
                 </div>
+                <div className="list-token">
+                  <div className="token-heading">
+                    <p>Token Name</p>
+                    <IconButton iconProps={{ iconName: 'SortLines' }} title="Close" ariaLabel="Close" />
+                  </div>
                 {
                     data.fetchTokensSuccess ? <ListTokens tokens={data.tokens}/> : null
                 }
+                </div>
             </div>
         </div>
     )
