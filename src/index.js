@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { initializeIcons } from '@fluentui/react';
 import { QueryClient, QueryClientProvider } from 'react-query'
  
 const queryClient = new QueryClient()
-
+initializeIcons()
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>

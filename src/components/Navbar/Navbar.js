@@ -15,11 +15,11 @@ export const Navbar = () => {
 				<ul className="list-menu">
 					<li className="menu-item active">pSwap</li>
 					<li className="menu-item">Charts</li>
-					<li classname="menu-item">Stacking</li>
+					<li className="menu-item">Stacking</li>
 					<li className="menu-item">LSB Token</li>
 				</ul>
 			</div>
-			<div class="btn-trans">
+			<div className="btn-trans">
 				<a className="btn">Connect LSB Wallet</a>
 			</div>
 		</div>

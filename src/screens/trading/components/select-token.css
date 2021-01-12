@@ -1,0 +1,38 @@
+.select-token {
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    left:0;
+    width: 100%;
+    height:100%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.select-token .select-token-panel {
+    width:25%;
+    background-color: white;
+    border-radius: 20px;
+    padding:20px;
+}
+.input-token input {
+    border-radius: 20px;
+    outline: none;
+    width: 100%;
+    font-size:20px;
+    border: 1px solid #E6E6E6;
+    padding:15px;
+}
+.select-token .heading-primary {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+.select-token .heading-primary h3{ 
+    
+    font-size:20px;
+}

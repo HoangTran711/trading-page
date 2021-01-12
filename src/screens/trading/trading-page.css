@@ -2,6 +2,8 @@ body {
 	/* background:#0b33c4; */
 	background:#0b40b9;
 	background-image: url('../../assets/bg-1.png');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 .trading-page {
 	position:absolute;
