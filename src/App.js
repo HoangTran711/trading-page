@@ -7,6 +7,16 @@ import { useFetchToken } from 'queries/token.queries'
 import './tailwind.output.css'
 function App() {
   const [tokens, setTokens] = React.useState([])
+  const [tokenSell, setTokenSell] = React.useState({
+    Icon: "https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/prv@2x.png",
+    IsCustom: false,
+    Name: "PRV",
+    PSymbol: "pPRV",
+    Symbol: "pPRV",
+    TokenID: "0000000000000000000000000000000000000000000000000000000000000004",
+    TokenType: "pToken",
+  })
+  const [tokenReceive, setTokenReceive] = React.useState(null)
   const { data, isSuccess } = useFetchToken()
   const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(true)
   const onHandleSelectTokens = () => {
@@ -25,7 +35,11 @@ function App() {
     <MyContext.Provider value={{
       tokens: tokens,
       fetchTokensSuccess: isSuccess,
-      onHandleSelectTokens
+      onHandleSelectTokens,
+      tokenSell:tokenSell,
+      setTokenSell,
+      tokenReceive: tokenReceive,
+      setTokenReceive
     }}>
       <div className="App">
         {isOpenSelectTokens ? <SelectToken/> : null}

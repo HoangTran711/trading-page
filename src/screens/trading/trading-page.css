@@ -67,6 +67,9 @@ body {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	padding:5px;
+	border-radius: 20px;
+	background-color: rgba(0, 0, 0,0.5);
 }
 .trading-top .token-select-input .token-selector span {
 	margin: 0px 10px;
@@ -106,7 +109,14 @@ body {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	border-radius: 20px;
+	padding:5px;
+	background-color: rgba(0, 0, 0,0.5);
 }
+.trading-bottom .token-select-output span {
+	padding:10px;
+}
+.trading-bottom .token-select-output 
 .trading-bottom .token-select-output .token-selector span {
 	font-weight: 600;
 	margin: 0px 10px;

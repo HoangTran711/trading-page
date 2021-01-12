@@ -79,10 +79,10 @@ const ListTokens = ({tokens}) => {
   
 export const SelectToken = () => {
     const data = React.useContext(MyContext)
-    console.log(data.tokens)
+    console.log(data)
     return (
         <div className="select-token">
-            <div className="overlay"/>
+            <div onClick={data.onHandleSelectTokens} className="overlay"/>
             <div className="select-token-panel">
                 <div className="heading-primary">
                     <h3>Select Token</h3>

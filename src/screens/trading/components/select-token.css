@@ -10,6 +10,15 @@
     align-items: center;
     justify-content: center;
 }
+.select-token .overlay {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: -1;
+    background-color: transparent;
+    width:100%;
+    height:100%;
+}
 .select-token .select-token-panel {
     width:500px;
     background-color: white;
