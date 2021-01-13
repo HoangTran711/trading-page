@@ -88,14 +88,13 @@ export const SelectToken = () => {
       }
       data.onHandleSelectTokens()
     }
+    
     const tokenList = React.useMemo(() => {
       if(isSuccess) {
-        console.log(searchIndex.search)
         if (!data.tokens) {
           return []
         }
         if (`${data.valueInputSearch}`.trim() !== '') {
-          console.log(data.valueInputSearch)
           const baseSearch = searchIndex
           return baseSearch.search(`^${data.valueInputSearch}`).map((i) => i.item)
         }

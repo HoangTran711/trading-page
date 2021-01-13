@@ -81,9 +81,10 @@ body {
 	color:#A4A4A4;
 }
 .trading-bottom span {
+
 	font-size:18px;
 	line-height: 20px;
-	font-weight: 400;
+	font-weight: 600;
 }
 .trading-bottom input {
 	outline: none;
@@ -114,14 +115,20 @@ body {
 	background-color: rgba(0, 0, 0,0.5);
 }
 .trading-bottom .token-select-output span {
-	padding:10px;
+	padding:7px;
+	font-weight: 600;
+	font-size: 20px;
+}
+.icon-unknown {
+	font-size: 35px;
 }
 .trading-bottom .token-select-output 
 .trading-bottom .token-select-output .token-selector span {
-	font-weight: 600;
+	font-weight: 500;
 	margin: 0px 10px;
 }
 .btn-primary {
+	font-size: 22px;
 	background-color: #325AB7;
 	color:white;
 	border-radius: 10px;
@@ -130,4 +137,6 @@ body {
 	align-items: center;
 	justify-content: center;
 	margin-top:40px;
+	font-weight: 400;
+	letter-spacing:1.5px;
 }

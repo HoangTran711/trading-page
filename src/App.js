@@ -20,7 +20,7 @@ function App() {
   const [valueInputSearch, setValueInputSearch] = React.useState('')
   const [tokenReceive, setTokenReceive] = React.useState(null)
   const { data, isSuccess } = useFetchToken()
-  const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(true)
+  const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)
   const onHandleSelectTokens = (active = null) => {
     if(active) {
       setTokenActive(active)
