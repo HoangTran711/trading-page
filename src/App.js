@@ -6,6 +6,7 @@ import { SelectToken } from 'screens/trading/components/select-token'
 import { useFetchToken } from 'queries/token.queries'
 import './tailwind.output.css'
 function App() {
+  const [tokenActive, setTokenActive] = React.useState('')
   const [tokens, setTokens] = React.useState([])
   const [tokenSell, setTokenSell] = React.useState({
     Icon: "https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/prv@2x.png",
@@ -16,12 +17,20 @@ function App() {
     TokenID: "0000000000000000000000000000000000000000000000000000000000000004",
     TokenType: "pToken",
   })
+  const [valueInputSearch, setValueInputSearch] = React.useState('')
   const [tokenReceive, setTokenReceive] = React.useState(null)
   const { data, isSuccess } = useFetchToken()
   const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(true)
-  const onHandleSelectTokens = () => {
+  const onHandleSelectTokens = (active = null) => {
+    if(active) {
+      setTokenActive(active)
+    }
+    if(isOpenSelectTokens) {
+      setValueInputSearch('')
+    }
     setIsOpenSelectTokens(!isOpenSelectTokens)
   }
+  
   React.useEffect(() => {
     if(isSuccess) {
       const temp = []
@@ -33,6 +42,9 @@ function App() {
   },[isSuccess])
   return (
     <MyContext.Provider value={{
+      tokenActive:tokenActive,
+      valueInputSearch:valueInputSearch,
+      setValueInputSearch,
       tokens: tokens,
       fetchTokensSuccess: isSuccess,
       onHandleSelectTokens,

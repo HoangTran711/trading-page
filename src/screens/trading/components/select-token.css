@@ -9,6 +9,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: opIn .5s;
+    animation-fill-mode: forwards;
 }
 .select-token .overlay {
     position:absolute;
@@ -69,4 +71,12 @@
 }
 .select-token .heading-primary h3{ 
     font-size:20px;
+}
+@keyframes opIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

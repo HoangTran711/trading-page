@@ -17,7 +17,7 @@ export const TradingPage = () => {
 					<input onChange={() => {}} type="text" value="1.5782" />
 					<div className="token-select-input">
 						<img className="token-select" src={data.tokenSell.Icon} alt="token"/>
-						<div onClick={data.onHandleSelectTokens} className="token-selector cursor-pointer">
+						<div onClick={() => data.onHandleSelectTokens('sell')} className="token-selector cursor-pointer">
 							<span>{data.tokenSell.Name}</span>
 							<FontAwesomeIcon icon={faChevronDown} />
 						</div>
@@ -32,12 +32,12 @@ export const TradingPage = () => {
 				<div className="input-container">
 					<input onChange={() =>{}} type="text" value="919.242"/>
 					{data.tokenReceive ? <div className="token-select-output">
-						<img className="token-select" src={Icon2} alt="token"/>
-						<div className="token-selector">
-							<span>pUSDT</span>
+						<img className="token-select" src={data.tokenReceive.Icon} alt="token"/>
+						<div onClick={() => data.onHandleSelectTokens('receive')} className="cursor-pointer token-selector">
+							<span>{data.tokenReceive.Name}</span>
 							<FontAwesomeIcon icon={faChevronDown} />
 						</div>
-					</div>: <div className="token-select-output cursor-pointer"><span>Choose a token</span> <FontAwesomeIcon icon={faChevronDown} /></div>}
+					</div>: <div onClick={() => data.onHandleSelectTokens('receive')} className="token-select-output cursor-pointer"><span>Choose a token</span> <FontAwesomeIcon icon={faChevronDown} /></div>}
 				</div>
 			</div>
 			<div className="btn-primary">

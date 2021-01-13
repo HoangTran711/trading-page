@@ -2,6 +2,7 @@ import { concat, keyBy } from 'lodash'
 import { setup } from 'axios-cache-adapter'
 import { PRV_TOKEN_ID } from '../constant/token'
 import { useQuery } from 'react-query'
+import { createTokenSearchIndex } from './fulltext'
 
 const api = setup({
   cache: {
@@ -12,7 +13,25 @@ const api = setup({
     clearOnStale: true,
   },
 })
+export const useFetchToken = () => {
+  return useQuery('useFetchToken.name', getTokenList, { refetchOnWindowFocus: false, refetchInterval: 60 * 60 * 60 })
+}
+export const useSearchableTokenList = (...searchFields) => {
+  const { data: tokenList } = useFetchToken()
+  return useQuery('useSearchableTokenList.name', () => createTokenSearchIndex(Object.values(tokenList), ...searchFields),)
+}
 
+export const useSearchableOnlyVerifiedToken = (...searchFields) => {
+  const { data: tokenList } = useFetchToken()
+  return useQuery(
+    'useSearchableOnlyVerifiedToken.name',
+    () =>
+      createTokenSearchIndex(
+        Object.values(tokenList).filter((i) => i.Verified),
+        ...searchFields,
+      ),
+  )
+}
 export const getTokenList = async () => {
 	const tokens = await api.get('https://api-service.incognito.org/ptoken/list')
 
@@ -33,7 +52,4 @@ export const getTokenList = async () => {
   }
 
   return keyBy(concat([PRV], tokensMapped), 'TokenID')
-}
-export const useFetchToken = () => {
-  return useQuery('useFetchToken.name', getTokenList, { refetchOnWindowFocus: false, refetchInterval: 60 * 60 * 60 })
 }

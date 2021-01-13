@@ -1,8 +1,9 @@
 import React from 'react'
 import './select-token.css'
 import { MyContext } from 'Context/MyContext'
-import { Icon,IconButton  , getTheme,PersonaPresence, mergeStyleSets, getFocusStyle,Persona, FocusZoneDirection,  FocusZone, List } from '@fluentui/react'
-
+import { useSearchableTokenList } from 'queries/token.queries'
+import { IconButton, getTheme,PersonaPresence, mergeStyleSets, getFocusStyle,Persona, FocusZoneDirection,  FocusZone, List } from '@fluentui/react'
+import { orderBy, filter } from 'lodash'
 const theme = getTheme();
 const { palette, semanticColors, fonts } = theme;
 const classNames = mergeStyleSets({
@@ -52,8 +53,7 @@ const classNames = mergeStyleSets({
     flexShrink: 0,
   },
 })
-const onRenderCell = (item, index, isScrolling) => {
-    
+const onRenderCell = (item, index, isScrolling, onHandleSelectToken, dataContext) => {
     const tokensPersona = {
         imageUrl: item?.Icon,
         imageInitials: item?.Name[0] + item?.Name[1],
@@ -61,17 +61,17 @@ const onRenderCell = (item, index, isScrolling) => {
         secondaryText: item?.PSymbol || item?.Symbol,
       };
     return (
-      <div className={classNames.itemCell} data-is-focusable={true}>
+      <div onClick={() => onHandleSelectToken(item)}  className={`${(dataContext.tokenSell?.Symbol === item.Symbol || dataContext.tokenReceive?.Symbol === item.Symbol) ? 'opacity-50': ''} cursor-pointer ${classNames.itemCell}`} data-is-focusable={true}>
         <Persona {...tokensPersona} presence={item.Verified ? PersonaPresence.online : PersonaPresence.offline} imageAlt="Image" />
       </div>
     );
   }
-const ListTokens = ({tokens}) => {
+const ListTokens = ({tokens, onHandleSelectToken, dataContext}) => {
     
     return (
       <FocusZone direction={FocusZoneDirection.vertical}>
         <div className={classNames.container} data-is-scrollable>
-          <List items={tokens} onRenderCell={onRenderCell} />
+          <List items={tokens} onRenderCell={(item, index, isScrolling) => onRenderCell(item, index, isScrolling, onHandleSelectToken, dataContext)} />
         </div>
       </FocusZone>
     );
@@ -79,17 +79,41 @@ const ListTokens = ({tokens}) => {
   
 export const SelectToken = () => {
     const data = React.useContext(MyContext)
-    console.log(data)
+    const { data: searchIndex, isSuccess } = useSearchableTokenList('Symbol', 'PSymbol', 'Name', 'TokenID')
+    const onHandleSelectToken = (item) => {
+      if(data.tokenActive === 'sell'){
+        data.setTokenSell(item)
+      } else if (data.tokenActive === 'receive') {
+        data.setTokenReceive(item)
+      }
+      data.onHandleSelectTokens()
+    }
+    const tokenList = React.useMemo(() => {
+      if(isSuccess) {
+        console.log(searchIndex.search)
+        if (!data.tokens) {
+          return []
+        }
+        if (`${data.valueInputSearch}`.trim() !== '') {
+          console.log(data.valueInputSearch)
+          const baseSearch = searchIndex
+          return baseSearch.search(`^${data.valueInputSearch}`).map((i) => i.item)
+        }
+        
+        return orderBy(filter(data.tokens, { Verified: false }), ['Verified', 'Symbol', 'PSymbol', 'IsCustom'], ['desc', 'asc', 'asc', 'desc'])
+      }
+      return []
+    }, [data.tokens, data.valueInputSearch, searchIndex, isSuccess])
     return (
         <div className="select-token">
             <div onClick={data.onHandleSelectTokens} className="overlay"/>
             <div className="select-token-panel">
                 <div className="heading-primary">
                     <h3>Select Token</h3>
-                    <IconButton iconProps={{ iconName: 'ChromeClose' }} title="Close" ariaLabel="Close" />
+                    <IconButton onClick={data.onHandleSelectTokens} iconProps={{ iconName: 'ChromeClose' }} title="Close" ariaLabel="Close" />
                 </div>
                 <div className="input-token">
-                    <input type="text" placeholder="Search name or paste address"/>
+                    <input onChange={(e) => data.setValueInputSearch(e.target.value)}value={data.valueInputSearch} type="text" placeholder="Search name or paste address"/>
                 </div>
                 <div className="list-token">
                   <div className="token-heading">
@@ -97,7 +121,7 @@ export const SelectToken = () => {
                     <IconButton iconProps={{ iconName: 'SortLines' }} title="Close" ariaLabel="Close" />
                   </div>
                 {
-                    data.fetchTokensSuccess ? <ListTokens tokens={data.tokens}/> : null
+                    data.fetchTokensSuccess ? <ListTokens dataContext={data} onHandleSelectToken={onHandleSelectToken} tokens={tokenList}/> : null
                 }
                 </div>
             </div>
