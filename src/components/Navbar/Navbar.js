@@ -20,7 +20,7 @@ export const Navbar = () => {
 				</ul>
 			</div>
 			<div className="btn-trans">
-				<a className="btn">Connect LSB Wallet</a>
+				<a href="#/" target="_blank" className="btn">Connect LSB Wallet</a>
 			</div>
 		</div>
 		

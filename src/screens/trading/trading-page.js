@@ -1,7 +1,6 @@
 import React from 'react'
 import './trading-page.css'
 import { MyContext } from 'Context/MyContext'
-import Icon1 from '../../assets/icon-1.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
@@ -21,6 +20,7 @@ export const TradingPage = () => {
 		console.log(isErrorSell)
 		setIsErrorReceive(false)
 		setIsErrorSell(false)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data?.tokenSell, data?.tokenReceive?.Icon])
 	return (
 		<div className="trading-page">
@@ -54,7 +54,7 @@ export const TradingPage = () => {
 				</div>
 			</div>
 			<div className="btn-primary">
-				<a >Connect LSB Wallet</a>
+				<a href="#/" >Connect LSB Wallet</a>
 			</div>
 		</div>
 	)
