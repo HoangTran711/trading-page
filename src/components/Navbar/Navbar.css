@@ -55,3 +55,20 @@ body {
 	margin-bottom: 15px;
 	border-radius: 4px;
 }
+@media only screen and (max-width: 700px) {
+  .btn-trans {
+    display: none
+	}
+	.navbar-left {
+		width:100%;
+		justify-content: space-between;
+	}
+	.navbar-left ul {
+		font-size:14px;
+	}
+}
+@media only screen and (max-width: 450px) {
+	.list-menu {
+		display: none !important;
+	}
+}

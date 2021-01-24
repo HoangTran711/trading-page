@@ -1,0 +1,52 @@
+.bottom-button {
+	width:100%;
+	position:fixed;
+	bottom:0;
+	padding:20px;
+	background-color: rgba(0, 0, 0, 0.7);
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.bottom-button .connect {
+	padding: 10px 20px;
+	background-color: rgba(50, 90, 183,0.5);
+	color:white;
+	border-radius: 20px;
+	cursor:pointer;
+}
+.bottom-button .container-logo {
+	background-color: rgba(255,255,255,0.1);
+	color:white;
+	padding: 10px;
+	border-radius: 20px;
+	margin-left:10px;
+}
+.bottom-button .left {
+	display: flex;
+	flex-direction: row;
+}
+.bottom-button img {
+	width:70px;
+}
+.bottom-button .container-icon {
+	background-color: rgba(255,255,255,0.1);
+	color:white;
+	padding: 10px 20px;
+	border-radius: 20px;
+	cursor: pointer;
+}
+@media only screen and (min-width: 701px) {
+  .bottom-button {
+		display:none;
+	}
+}
+@media only screen and (max-width: 375px) {
+  .bottom-button .container-logo {
+		display: none;
+	}
+}
+

@@ -49,6 +49,8 @@ export const getTokenList = async () => {
     IsCustom: false,
     TokenType: 'pToken',
     Icon: 'https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/prv@2x.png',
+    Verified: true,
+    PDecimals: 9
   }
 
   return keyBy(concat([PRV], tokensMapped), 'TokenID')

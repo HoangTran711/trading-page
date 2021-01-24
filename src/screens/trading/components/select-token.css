@@ -1,5 +1,5 @@
 .select-token {
-    position: absolute;
+    position: fixed;
     background-color: rgba(0,0,0,0.5);
     top: 0;
     left:0;
@@ -19,7 +19,7 @@
     z-index: -1;
     background-color: transparent;
     width:100%;
-    height:100%;
+    height:120vh;
 }
 .select-token .select-token-panel {
     width:500px;
@@ -80,3 +80,8 @@
         opacity: 1;
     }
 }
+/* @media only screen and (max-width: 700px) {
+    .select-token .select-token-panel {
+      width:300px;
+    }
+  } */

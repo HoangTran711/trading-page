@@ -1,0 +1,22 @@
+.overlay-detail {
+	position:absolute;
+	bottom:0;
+	left:50%;
+	transform:translate(-50%, 100%);
+	background-color: rgba(255, 255, 255,0.2);
+	color:white;
+	width:450px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding:20px;
+}
+.overlay-detail .item {
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+}
+.overlay-detail .price-impact {
+	color: #26A17B;
+}

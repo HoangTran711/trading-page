@@ -1,7 +1,7 @@
 import React from 'react'
 import './select-token.css'
 import { MyContext } from 'Context/MyContext'
-import { useSearchableTokenList } from 'queries/token.queries'
+import {  useSearchableOnlyVerifiedToken } from 'queries/token.queries'
 import { IconButton, getTheme,PersonaPresence, mergeStyleSets, getFocusStyle,Persona, FocusZoneDirection,  FocusZone, List } from '@fluentui/react'
 import { orderBy, filter } from 'lodash'
 const theme = getTheme();
@@ -67,7 +67,6 @@ const onRenderCell = (item, index, isScrolling, onHandleSelectToken, dataContext
     );
   }
 const ListTokens = ({tokens, onHandleSelectToken, dataContext}) => {
-    
     return (
       <FocusZone direction={FocusZoneDirection.vertical}>
         <div className={classNames.container} data-is-scrollable>
@@ -79,12 +78,37 @@ const ListTokens = ({tokens, onHandleSelectToken, dataContext}) => {
   
 export const SelectToken = () => {
     const data = React.useContext(MyContext)
-    const { data: searchIndex, isSuccess } = useSearchableTokenList('Symbol', 'PSymbol', 'Name', 'TokenID')
+    const { data: searchIndex, isSuccess } = useSearchableOnlyVerifiedToken('Symbol', 'PSymbol', 'Name', 'TokenID')
     const onHandleSelectToken = (item) => {
       if(data.tokenActive === 'sell'){
-        data.setTokenSell(item)
+        console.log(item)
+        data.setTokenSell({
+          id: item.TokenID,
+          name: item.Name,
+          displayName: item.Name,
+          symbol: item.PSymbol,
+          pDecimals: item.PDecimals,
+          hasIcon: true,
+          originalSymbol: item.PSymbol,
+          isVerified: item.Verified,
+          Icon: item.Icon,
+          priceUsd: item.PriceUsd,
+          address: item.ContractID
+        })
       } else if (data.tokenActive === 'receive') {
-        data.setTokenReceive(item)
+        data.setTokenReceive({
+          id: item.TokenID,
+          name: item.Name,
+          displayName: item.Name,
+          symbol: item.PSymbol,
+          pDecimals: item.PDecimals,
+          hasIcon: true,
+          originalSymbol: item.PSymbol,
+          isVerified: item.Verified,
+          Icon: item.Icon,
+          priceUsd: item.PriceUsd,
+          address: item.ContractID
+        })
       }
       data.onHandleSelectTokens()
     }
@@ -99,7 +123,7 @@ export const SelectToken = () => {
           return baseSearch.search(`^${data.valueInputSearch}`).map((i) => i.item)
         }
         
-        return orderBy(filter(data.tokens, { Verified: false }), ['Verified', 'Symbol', 'PSymbol', 'IsCustom'], ['desc', 'asc', 'asc', 'desc'])
+        return orderBy(filter(data.tokens, { Verified: true }), ['Verified', 'Symbol', 'PSymbol', 'IsCustom'], ['desc', 'asc', 'asc', 'desc'])
       }
       return []
     }, [data.tokens, data.valueInputSearch, searchIndex, isSuccess])
