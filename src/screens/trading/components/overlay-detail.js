@@ -18,7 +18,7 @@ export const OverlayDetail = ({impact, fee, poolSize}) => {
 				<span className="label">
 					Fee
 				</span>
-				<span className="">{data.tokenSell?.id && data.tokenReceive?.id ? (fee?.fee * Math.pow(10,-fee.feeToken?.pDecimals)).toFixed(7) || 0 : 0}</span>
+				<span className="">{data.tokenSell?.id && data.tokenReceive?.id ? parseFloat((fee?.fee * Math.pow(10,-fee.feeToken?.pDecimals)).toFixed(7)) || 0 : 0}</span>
 			</div>
 			{
 				poolSize.output1 ? poolSize.output2 ? (

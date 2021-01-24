@@ -63,7 +63,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			<div className="trading-top">
 				<span>From</span>
 				<div className="input-container">
-					<input onChange={(e) => {data.setAmount(e.target.value)}} type="text" value={data.amount} />
+					<input onChange={(e) => {data.setAmount(e.target.value)}} type="number" placeholder="0.0" value={data.amount} />
 					<div onClick={() => data.onHandleSelectTokens('sell')}  className="token-select-input  cursor-pointer">
 						{!isErrorSell ? <img onError={onErrorLoadImageSell} className="token-select" src={data.tokenSell.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div className="token-selector">
