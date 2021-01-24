@@ -51,10 +51,12 @@ export const TradingPage = ({outputValue, outputToken}) => {
 	React.useEffect(() => {
 		setIsErrorReceive(false)
 		setIsErrorSell(false)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data?.tokenSell, data?.tokenReceive?.Icon])
 	React.useEffect(() => {
 		let temp = calculateSizeImpact(data.amount * Math.pow(10, data.tokenSell?.pDecimals) , data.tokenSell, outputValue , outputToken, data.tokenSell?.priceUsd, data.tokenSell?.pDecimals,  data.tokenReceive?.priceUsd, data.tokenReceive?.pDecimals)
 		setImpact(temp)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outputValue])
 	return (
 		<div className="trading-page">
@@ -87,8 +89,9 @@ export const TradingPage = ({outputValue, outputToken}) => {
 					</div>: <div onClick={() => data.onHandleSelectTokens('receive')} className="token-select-output cursor-pointer "><span className="font-semibold">Choose a token</span> <FontAwesomeIcon icon={faChevronDown} /></div>}
 				</div>
 			</div>
-			<div className="cursor-pointer btn-primary">
-				<a href={() => false}>Connect LSB Wallet</a>
+
+			<div className="btn-primary">
+				<a href="#/" >Connect LSB Wallet</a>
 			</div>
 			<OverlayDetail impact={impact} fee={fee} poolSize={poolSize}/>
 		</div>

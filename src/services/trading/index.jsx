@@ -19,7 +19,7 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
       setPairs(data?.pairs || [])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess])
+  }, [isSuccess]) // eslint-disable-line react-hooks/exhaustive-deps
   const calculateOutputValue = (pair) => {
     const outputValue = calculateOutputIncognitoNetWork({
       pair: pair,
@@ -70,7 +70,7 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
       setGettingQuote(false)
     }
   }
-  const debouncedGetQuote = React.useCallback(_.debounce(getQuote, 1000), [])
+  const debouncedGetQuote = React.useCallback(_.debounce(getQuote, 1000), [])  // eslint-disable-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (pair.length !== 0) {
       console.log(inputToken, outputToken, inputValue)
