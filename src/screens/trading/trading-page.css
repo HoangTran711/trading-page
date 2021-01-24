@@ -39,7 +39,7 @@ input::-webkit-inner-spin-button {
 }
 .trading-page .icon {
 	text-align: center;
-	font-size:25px;
+	font-size:15px;
 }
 .trading-top {
 	border: 0.5px solid #A4A4A4;
@@ -78,6 +78,7 @@ input::-webkit-inner-spin-button {
 	align-items: center;
 	padding:5px;
 	border-radius: 20px;
+	font-size: 18px;
 	background-color: rgba(0, 0, 0,0.5);
 }
 .trading-top .token-select-input .token-selector span {
@@ -121,18 +122,16 @@ input::-webkit-inner-spin-button {
 	align-items: center;
 	border-radius: 20px;
 	padding:5px;
+	font-size:18px;
 	background-color: rgba(0, 0, 0,0.5);
 }
 .trading-bottom .token-select-output span {
-	padding:7px;
 	font-weight: 600;
-	font-size: 20px;
 }
 .icon-unknown {
 	font-size: 35px;
 }
 .trading-bottom .token-select-output .token-selector span {
-	font-weight: 500;
 	margin: 0px 10px;
 }
 .btn-primary {
@@ -180,5 +179,31 @@ input::-webkit-inner-spin-button {
 @media only screen and (max-width: 400px) {
 	.trading-page {
     width:100%;
+	}
+	.trading-top .input-container img {
+		width:25px;
+		height:25px;
+	}
+	.trading-bottom .input-container img {
+		width:25px;
+		height:25px;
+	}
+	.token-selector .icon{
+		display:none !important;
+	}
+	.token-selector {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.trading-top .token-select-input .token-selector span {
+		margin:0;
+		margin-left:5px;
+		font-size: 15px;
+	}
+	.trading-bottom .token-select-output .token-selector span{
+		margin:0;
+		font-size: 15px;
+		margin-left:5px;
 	}
 }

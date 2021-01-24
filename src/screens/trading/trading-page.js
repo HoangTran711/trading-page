@@ -68,7 +68,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 						{!isErrorSell ? <img onError={onErrorLoadImageSell} className="token-select" src={data.tokenSell.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div className="token-selector">
 							<span>{data.tokenSell.name}</span>
-							<FontAwesomeIcon icon={faChevronDown} />
+							<FontAwesomeIcon className="icon" icon={faChevronDown} />
 						</div>
 					</div>
 				</div>
@@ -84,9 +84,9 @@ export const TradingPage = ({outputValue, outputToken}) => {
 					{!isErrorReceive ? <img onError={onErrorLoadImageReceive} className="token-img-output" src={data.tokenReceive.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div onClick={() => data.onHandleSelectTokens('receive')} className="cursor-pointer token-selector">
 							<span>{data.tokenReceive.name}</span>
-							<FontAwesomeIcon icon={faChevronDown} />
+							<FontAwesomeIcon icon={faChevronDown} className="icon" />
 						</div>
-					</div>: <div onClick={() => data.onHandleSelectTokens('receive')} className="token-select-output cursor-pointer "><span className="font-semibold">Choose a token</span> <FontAwesomeIcon icon={faChevronDown} /></div>}
+					</div>: <div onClick={() => data.onHandleSelectTokens('receive')} className="token-select-output cursor-pointer "><span className="font-semibold">Choose a token</span> <FontAwesomeIcon className="icon" icon={faChevronDown} /></div>}
 				</div>
 			</div>
 

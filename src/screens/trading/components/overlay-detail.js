@@ -25,23 +25,23 @@ export const OverlayDetail = ({impact, fee, poolSize}) => {
 					<>
 						<div className="item first-item">
 							<span className="label">
-								Incognito
+								Pool Size
 							</span>
-							<span className="">{`${poolSize?.output1[0]} ${data.tokenSell.symbol} + ${poolSize?.output1[1]} ${PRV.symbol}`}</span>
+							<span className="pool-size">{`${poolSize?.output1[0]} ${data.tokenSell.symbol} + ${poolSize?.output1[1]} ${PRV.symbol}`}</span>
 						</div>
 						<div className="item first-item">
 							<span className="label">
-								Incognito
+								Pool Size
 							</span>
-							<span className="">{`${poolSize?.output2[1]} ${PRV.symbol} + ${poolSize?.output2[0]} ${data.tokenReceive.symbol}`}</span>
+							<span className="pool-size">{`${poolSize?.output2[1]} ${PRV.symbol} + ${poolSize?.output2[0]} ${data.tokenReceive.symbol}`}</span>
 						</div>
 					</>
 				):(
 					<div className="item first-item">
 							<span className="label">
-								Incognito
+								Pool Size
 							</span>
-							<span className="">{`${poolSize?.output1[0]} ${data.tokenSell.id === PRV_ID ? data.tokenReceive.symbol : data.tokenSell.symbol} + ${poolSize?.output1[1]} ${PRV.symbol}`}</span>
+							<span className="pool-size">{`${poolSize?.output1[0]} ${data.tokenSell.id === PRV_ID ? data.tokenReceive.symbol : data.tokenSell.symbol} + ${poolSize?.output1[1]} ${PRV.symbol}`}</span>
 						</div>
 				):null
 			}
