@@ -3,6 +3,17 @@ import logo from '../../assets/logo.png'
 import './Navbar.css'
 
 export const Navbar = () => {
+	const handleScroll = () => {
+		if(window.scrollY > 20) {
+			document.querySelector(".navbar").classList.add('scrolled');
+		} else {
+			document.querySelector(".navbar").classList.remove('scrolled')
+		}
+	}
+	React.useEffect(() => {
+		window.addEventListener("scroll", handleScroll)
+		return (() => window.removeEventListener('scroll', handleScroll))
+	}, [])
 	return (
 		<div className="navbar">
 			<div className="navbar-left">

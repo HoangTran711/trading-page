@@ -14,7 +14,7 @@ function App() {
   const [tokenSell, setTokenSell] = React.useState({
     Icon: "https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/prv@2x.png",
     id: '0000000000000000000000000000000000000000000000000000000000000004',
-    name: 'Privacy',
+    name: 'PRV',
     displayName: 'Privacy',
     symbol: 'PRV',
     pDecimals: 9,

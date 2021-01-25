@@ -23,6 +23,7 @@
 }
 .select-token .select-token-panel {
     width:500px;
+    height:350px;
     background-color: white;
     border-radius: 20px;
     padding:20px;

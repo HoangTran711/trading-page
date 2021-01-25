@@ -9,7 +9,7 @@ const { palette, semanticColors, fonts } = theme;
 const classNames = mergeStyleSets({
   container: {
     overflow: 'auto',
-    maxHeight: 500,
+    maxHeight: 160,
   },
   itemCell: [
     getFocusStyle(theme, { inset: -1 }),
