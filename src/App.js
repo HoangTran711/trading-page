@@ -23,7 +23,17 @@ function App() {
     isVerified: true,
   })
   const [valueInputSearch, setValueInputSearch] = React.useState('')
-  const [tokenReceive, setTokenReceive] = React.useState(null)
+  const [tokenReceive, setTokenReceive] = React.useState({
+    Icon: "",
+    id: '',
+    name: '',
+    displayName: '',
+    symbol: '',
+    pDecimals: 0,
+    hasIcon: false,
+    originalSymbol: '',
+    isVerified: false,
+  })
   const { data, isSuccess } = useFetchToken()
   const [ amount,setAmount ] = React.useState('0')
   const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)

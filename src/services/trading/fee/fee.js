@@ -24,7 +24,7 @@ export const estimateFeeTrade = ({ inputToken, outputToken, pairs }) => {
     feeToken = inputToken
     fee = outputValue * 4
   } else {
-    fee = prvFee
+    fee = prvFee * 4
     feeToken = PRV
   }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Tooltip } from 'components/Tooltips/Tooltips'
 import logo from '../../assets/logo.png'
 import './Navbar.css'
 
@@ -25,14 +26,16 @@ export const Navbar = () => {
 
 				<ul className="list-menu">
 					<li className="menu-item active">pSwap</li>
-					<li className="menu-item">Charts</li>
+					{/* <li className="menu-item">Charts</li> 
 					<li className="menu-item">Stacking</li>
-					<li className="menu-item">LSB Token</li>
+					<li className="menu-item">LSB Token</li> */}
 				</ul>
 			</div>
-			<div className="btn-trans">
-				<a href="#/" target="_blank" className="btn">Connect LSB Wallet</a>
-			</div>
+			<Tooltip>
+				<div className="cursor-not-allowed btn-trans">
+					<a href="#/" className="btn cursor-not-allowed">Connect LSB Wallet</a>
+				</div>
+			</Tooltip>
 		</div>
 		
 	)

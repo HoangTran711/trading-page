@@ -58,6 +58,10 @@ body {
 	border: 1px solid white;
 	padding:15px 20px;
 	border-radius: 4px;
+	
+}
+.btn-trans a {
+	font-size:15px;
 }
 @media only screen and (max-width: 700px) {
   .btn-trans {
@@ -71,8 +75,8 @@ body {
 		font-size:14px;
 	}
 }
-@media only screen and (max-width: 450px) {
+/* @media only screen and (max-width: 450px) {
 	.list-menu {
 		display: none !important;
 	}
-}
+} */

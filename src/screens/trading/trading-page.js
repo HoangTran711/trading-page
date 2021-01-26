@@ -9,6 +9,7 @@ import { estimateFeeTrade } from 'services/trading/fee/fee'
 import { calculateSizeImpact, getPoolSize } from 'services/trading/utils'
 import { OverlayDetail } from './components/overlay-detail'
 import { useGetPairsData} from 'services/trading/fee/pairsData'
+import { Tooltip } from 'components/Tooltips/Tooltips'
 
 
 export const TradingPage = ({outputValue, outputToken}) => {
@@ -57,30 +58,34 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		let temp = calculateSizeImpact(data.amount * Math.pow(10, data.tokenSell?.pDecimals) , data.tokenSell, outputValue , outputToken, data.tokenSell?.priceUsd, data.tokenSell?.pDecimals,  data.tokenReceive?.priceUsd, data.tokenReceive?.pDecimals)
 		setImpact(temp)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outputValue])
+	}, [outputValue])
+	const onHandleSwitchButton = () => {
+		data.setTokenSell(data.tokenReceive)
+		data.setTokenReceive(data.tokenSell)
+	}
 	return (
 		<div className="trading-page">
 			<div className="trading-top">
 				<span>From</span>
 				<div className="input-container">
-					<input onChange={(e) => {data.setAmount(e.target.value)}} type="number" placeholder="0.0" value={data.amount} />
-					<div onClick={() => data.onHandleSelectTokens('sell')}  className="token-select-input  cursor-pointer">
+					<input onChange={(e) => {data.setAmount(e.target.value)}} type="number" placeholder="0" value={data.amount} />
+					{data.tokenSell.id ? <div onClick={() => data.onHandleSelectTokens('sell')}  className="token-select-input  cursor-pointer">
 						{!isErrorSell ? <img onError={onErrorLoadImageSell} className="token-select" src={data.tokenSell.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div className="token-selector">
 							<span>{data.tokenSell.name}</span>
 							<FontAwesomeIcon className="icon" icon={faChevronDown} />
 						</div>
-					</div>
+					</div>: <div onClick={() => data.onHandleSelectTokens('sell')} className="token-select-input cursor-pointer "><span className="font-semibold">Choose a token</span> <FontAwesomeIcon className="icon" icon={faChevronDown} /></div>}
 				</div>
 			</div>
-			<div className="container-icon">
+			<div onClick={onHandleSwitchButton} className="cursor-pointer container-icon">
 				<FontAwesomeIcon className="icon" icon={faArrowDown} />
 			</div>
 			<div className="trading-bottom">
 				<span>To</span>
 				<div className="input-container">
 					<input onChange={() =>{}} type="text" value={outputValue  * Math.pow(10, -outputToken?.pDecimals) || 0}/>
-					{data.tokenReceive ? <div className="token-select-output">
+					{data.tokenReceive?.id ? <div className="token-select-output">
 					{!isErrorReceive ? <img onError={onErrorLoadImageReceive} className="token-img-output" src={data.tokenReceive.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div onClick={() => data.onHandleSelectTokens('receive')} className="cursor-pointer token-selector">
 							<span>{data.tokenReceive.name}</span>
@@ -90,8 +95,12 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				</div>
 			</div>
 
-			<div className="btn-primary">
-				<a href="#/" >Connect LSB Wallet</a>
+			<div className="mt-4">
+			<Tooltip>
+				<div className="btn-primary cursor-not-allowed opacity-60">
+					<a href="#/" className="cursor-not-allowed" >Connect LSB Wallet</a>
+				</div>
+			</Tooltip>
 			</div>
 			<OverlayDetail impact={impact} fee={fee} poolSize={poolSize}/>
 		</div>

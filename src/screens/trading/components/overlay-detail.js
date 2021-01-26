@@ -6,6 +6,17 @@ import { PRV_ID } from 'constants/constants'
 
 export const OverlayDetail = ({impact, fee, poolSize}) => {
 	const data = React.useContext(MyContext)
+	const onFixedNumber = (fee) => {
+		
+		if(fee.fee < 100) {
+			return (fee?.fee * Math.pow(10,-fee.feeToken?.pDecimals)).toFixed(fee.feeToken?.pDecimals - 1)
+		} else if ( fee.fee >= 100 && fee.fee <1000) {
+			return (fee?.fee * Math.pow(10,-fee.feeToken?.pDecimals)).toFixed(fee.feeToken?.pDecimals - 2)
+		} else {
+			return (fee?.fee * Math.pow(10,-fee.feeToken?.pDecimals)).toFixed(fee.feeToken?.pDecimals - 3)
+		}
+		
+	}
 	return ( 
 		<div className="overlay-detail">
 			<div className="item first-item">
@@ -18,7 +29,7 @@ export const OverlayDetail = ({impact, fee, poolSize}) => {
 				<span className="label">
 					Fee
 				</span>
-				<span className="">{data.tokenSell?.id && data.tokenReceive?.id ? parseFloat((fee?.fee * Math.pow(10,-fee.feeToken?.pDecimals)).toFixed(7)) || 0 : 0}</span>
+				<span className="">{data.tokenSell?.id && data.tokenReceive?.id ? onFixedNumber(fee) || 0 : 0}</span>
 			</div>
 			{
 				poolSize.output1 ? poolSize.output2 ? (
