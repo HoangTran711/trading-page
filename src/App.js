@@ -35,6 +35,7 @@ function App() {
     isVerified: false,
   })
   const { data, isSuccess } = useFetchToken()
+  const [pairs, setPairs] = React.useState([])
   const [ amount,setAmount ] = React.useState('0')
   const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)
   const onHandleSelectTokens = (active = null) => {
@@ -69,7 +70,9 @@ function App() {
       tokenReceive: tokenReceive,
       setTokenReceive,
       amount: amount,
-      setAmount
+      setAmount,
+      pairs,
+      setPairs
     }}>
       <div>
         {isOpenSelectTokens ? <SelectToken/> : null}

@@ -112,7 +112,19 @@ export const SelectToken = () => {
       }
       data.onHandleSelectTokens()
     }
-    
+    const onCheckCalculate = (tokens) => {
+      if(data.pairs.length !== 0 && tokens) {
+        return tokens.filter((token) => {
+          const pair =  data.pairs.find(pair => pair[token.TokenID])
+          console.log(token)
+          if(pair) {
+            return true
+          } 
+          return false
+        })
+      }
+      return tokens
+    }
     const tokenList = React.useMemo(() => {
       if(isSuccess) {
         if (!data.tokens) {
@@ -144,7 +156,7 @@ export const SelectToken = () => {
                     <IconButton iconProps={{ iconName: 'SortLines' }} title="Close" ariaLabel="Close" />
                   </div>
                 {
-                    data.fetchTokensSuccess ? <ListTokens dataContext={data} onHandleSelectToken={onHandleSelectToken} tokens={tokenList}/> : null
+                    data.fetchTokensSuccess ? <ListTokens dataContext={data} onHandleSelectToken={onHandleSelectToken} tokens={onCheckCalculate(tokenList)}/> : null
                 }
                 </div>
             </div>

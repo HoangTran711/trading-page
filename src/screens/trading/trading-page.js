@@ -36,6 +36,13 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		setIsErrorReceive(true)
 	}
 	React.useEffect(() => {
+		if(pairs) {
+			data.setPairs(pairs.pairs)
+			console.log(pairs.pairs)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [pairs])
+	React.useEffect(() => {
 
     if (fetchedPairs) {
       const fee = estimateFeeTrade({
@@ -72,7 +79,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 					{data.tokenSell.id ? <div onClick={() => data.onHandleSelectTokens('sell')}  className="token-select-input  cursor-pointer">
 						{!isErrorSell ? <img onError={onErrorLoadImageSell} className="token-select" src={data.tokenSell.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div className="token-selector">
-							<span>{data.tokenSell.name}</span>
+							<span>{data.tokenSell.symbol}</span>
 							<FontAwesomeIcon className="icon" icon={faChevronDown} />
 						</div>
 					</div>: <div onClick={() => data.onHandleSelectTokens('sell')} className="token-select-input cursor-pointer "><span className="font-semibold">Choose a token</span> <FontAwesomeIcon className="icon" icon={faChevronDown} /></div>}
@@ -88,7 +95,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 					{data.tokenReceive?.id ? <div className="token-select-output">
 					{!isErrorReceive ? <img onError={onErrorLoadImageReceive} className="token-img-output" src={data.tokenReceive.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
 						<div onClick={() => data.onHandleSelectTokens('receive')} className="cursor-pointer token-selector">
-							<span>{data.tokenReceive.name}</span>
+							<span>{data.tokenReceive.symbol}</span>
 							<FontAwesomeIcon icon={faChevronDown} className="icon" />
 						</div>
 					</div>: <div onClick={() => data.onHandleSelectTokens('receive')} className="token-select-output cursor-pointer "><span className="font-semibold">Choose a token</span> <FontAwesomeIcon className="icon" icon={faChevronDown} /></div>}
