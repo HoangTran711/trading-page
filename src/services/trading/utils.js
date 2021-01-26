@@ -62,7 +62,6 @@ export const calculateOutputValueCrossPool = (pairs, inputToken, inputValue, out
   }
 
   outputValue = calculateOutputValue(secondPair || firstPair, currentInputToken, outputValue, outputToken)
-  console.log(outputValue)
   if (outputValue < 0) {
     outputValue = 0
   }
@@ -77,7 +76,6 @@ const getImpact = (input, output) => {
 export const calculateSizeImpact = (inputValue, inputToken, outputValue, outputToken, inputPriceUsd, inputPDecimals,  outputPriceUsd, outputPDecimals) => {
   const totalInputUsd   = toHumanAmount(inputValue * inputPriceUsd, inputPDecimals);
   const totalOutputUsd  = toHumanAmount(outputValue * outputPriceUsd, outputPDecimals);
-  console.log('test1',totalInputUsd, totalOutputUsd)
   if (totalInputUsd && totalOutputUsd) {
     
     const impact = fixedNumber(getImpact(totalInputUsd, totalOutputUsd), 3);
@@ -169,7 +167,6 @@ export const getPoolSize = (inputToken,outputToken, pairs) => {
     if(inputToken.id === PRV_TOKEN_ID) {
       inputPool = firstPair[outputToken?.id] || 0
     }
-    console.log('input-pool: ',firstPair, inputPool)
     const formattedInputPool = amount(
       inputPool,
       inputToken.id ===PRV_TOKEN_ID?outputToken?.pDecimals : inputToken?.pDecimals,

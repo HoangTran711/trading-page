@@ -73,7 +73,6 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
   const debouncedGetQuote = React.useCallback(_.debounce(getQuote, 1000), [])  // eslint-disable-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (pair.length !== 0) {
-      console.log(inputToken, outputToken, inputValue)
       if (inputToken && outputToken && inputValue) {
         calculateOutputValue(pair)
       }
@@ -88,7 +87,6 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
         setMinimumAmount(0)
         setQuote(null)
       }
-      // console.log(minimumAmount)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputToken, inputValue, outputToken, pair])

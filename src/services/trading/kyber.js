@@ -23,8 +23,7 @@ export async function getKyberQuote({ sellToken, sellAmount, buyToken }) {
     buyAddress = '0x0000000000000000000000000000000000000000'
   }
   const url = `${API_BASE_URL}/uniswap/rate?SrcToken=${sellAddress}&DestToken=${buyAddress}&AmountIn=${sellAmount}`
-  const rates: any = await axios.get(url)
-  console.log(rates)
+  const rates = await axios.get(url)
   const bestRate = rates?.data.Result.ListRate?.find((rate) => rate?.DappName === rates?.data.Result.DappName)
   let expectAmount
   let protocol

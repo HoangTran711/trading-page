@@ -38,7 +38,6 @@ export const TradingPage = ({outputValue, outputToken}) => {
 	React.useEffect(() => {
 		if(pairs) {
 			data.setPairs(pairs.pairs)
-			console.log(pairs.pairs)
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pairs])

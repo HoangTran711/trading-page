@@ -54,7 +54,11 @@ export const OverlayDetail = ({impact, fee, poolSize}) => {
 							</span>
 							<span className="pool-size">{`${poolSize?.output1[0]} ${data.tokenSell.id === PRV_ID ? data.tokenReceive.symbol : data.tokenSell.symbol} + ${poolSize?.output1[1]} ${PRV.symbol}`}</span>
 						</div>
-				):null
+				): <div className="item first-item">
+							<span className="label">
+								Pool Size
+							</span>
+						</div>
 			}
 
 		</div>
