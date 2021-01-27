@@ -81,7 +81,6 @@ export const SelectToken = () => {
     const { data: searchIndex, isSuccess } = useSearchableOnlyVerifiedToken('Symbol', 'PSymbol', 'Name', 'TokenID')
     const onHandleSelectToken = (item) => {
       if(data.tokenActive === 'sell'){
-        console.log(item)
         data.setTokenSell({
           id: item.TokenID,
           name: item.Name,
@@ -116,7 +115,6 @@ export const SelectToken = () => {
       if(data.pairs.length !== 0 && tokens) {
         return tokens.filter((token) => {
           const pair =  data.pairs.find(pair => pair[token.TokenID])
-          console.log(token)
           if(pair) {
             return true
           } 
