@@ -92,6 +92,7 @@ export const SelectToken = () => {
           isVerified: item.Verified,
           Icon: item.Icon,
           priceUsd: item.PriceUsd,
+          pricePrv: item.PricePrv,
           address: item.ContractID
         })
       } else if (data.tokenActive === 'receive') {
@@ -106,6 +107,7 @@ export const SelectToken = () => {
           isVerified: item.Verified,
           Icon: item.Icon,
           priceUsd: item.PriceUsd,
+          pricePrv: item.PricePrv,
           address: item.ContractID
         })
       }

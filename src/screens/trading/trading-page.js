@@ -61,10 +61,13 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data?.tokenSell, data?.tokenReceive?.Icon])
 	React.useEffect(() => {
-		let temp = calculateSizeImpact(data.amount * Math.pow(10, data.tokenSell?.pDecimals) , data.tokenSell, outputValue , outputToken, data.tokenSell?.priceUsd, data.tokenSell?.pDecimals,  data.tokenReceive?.priceUsd, data.tokenReceive?.pDecimals)
-		setImpact(temp)
+		if(data.fetchTokensSuccess) {
+			const tokenUSDT = data.tokens.find(token => token.TokenID === '716fd1009e2a1669caacc36891e707bfdf02590f96ebd897548e8963c95ebac0')
+			let temp = calculateSizeImpact(data.amount * Math.pow(10, data.tokenSell?.pDecimals) , data.tokenSell, outputValue , outputToken, data.tokenSell?.priceUsd, data.tokenSell?.pDecimals,  data.tokenReceive?.priceUsd, data.tokenReceive?.pDecimals, tokenUSDT)
+			setImpact(temp)
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [outputValue])
+	}, [outputValue, data.fetchTokensSuccess])
 	const onHandleSwitchButton = () => {
 		data.setTokenSell(data.tokenReceive)
 		data.setTokenReceive(data.tokenSell)

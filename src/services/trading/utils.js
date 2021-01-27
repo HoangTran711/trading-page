@@ -73,9 +73,15 @@ const getImpact = (input, output) => {
   output = new BigNumber(output)
   return output.minus(input).dividedBy(input).multipliedBy(100).toNumber()
 }
-export const calculateSizeImpact = (inputValue, inputToken, outputValue, outputToken, inputPriceUsd, inputPDecimals,  outputPriceUsd, outputPDecimals) => {
-  const totalInputUsd   = toHumanAmount(inputValue * inputPriceUsd, inputPDecimals);
-  const totalOutputUsd  = toHumanAmount(outputValue * outputPriceUsd, outputPDecimals);
+export const calculateSizeImpact = (inputValue, inputToken, outputValue, outputToken, inputPriceUsd, inputPDecimals,  outputPriceUsd, outputPDecimals, tokenUSDT) => {
+  var inputPrice  = null
+  var outputPrice = null
+  if (tokenUSDT) {
+    inputPrice = getPrice(inputToken,tokenUSDT)
+    outputPrice = getPrice(outputToken,tokenUSDT)
+  }
+  const totalInputUsd   = toHumanAmount(inputValue * (inputPrice?.priceUsd || inputPriceUsd), inputPDecimals);
+  const totalOutputUsd  = toHumanAmount(outputValue * (outputPrice?.priceUsd || outputPriceUsd), outputPDecimals);
   if (totalInputUsd && totalOutputUsd) {
     
     const impact = fixedNumber(getImpact(totalInputUsd, totalOutputUsd), 3);
@@ -205,3 +211,40 @@ export const getPoolSize = (inputToken,outputToken, pairs) => {
     output2: null
   }
 } 
+export const getPrice = ( token, tokenUSDT ) => {
+  const { PricePrv: priceOneUsdtByPrv } = tokenUSDT;
+  const priceOnePrvToUsdt = 1 / priceOneUsdtByPrv;
+  const defaultValue = {
+    pricePrv: 0,
+    change: '0',
+  };
+  if (!tokenUSDT || !priceOnePrvToUsdt) {
+    return defaultValue;
+  }
+  if (token?.isMainCrypto) {
+    return {
+      change: '0',
+      pricePrv: 1,
+      priceUsd: priceOnePrvToUsdt || 0,
+    };
+  }
+  const _pricePrv =
+    Number(token?.pricePrv) !== 0
+      ? token?.pricePrv
+      : token?.priceUsd / priceOnePrvToUsdt;
+  const _priceUsd =
+    Number(token?.priceUsd) !== 0
+      ? token?.priceUsd
+      : _pricePrv * priceOnePrvToUsdt;
+  return {
+    change: token?.change || defaultValue.change,
+    pricePrv:
+      token?.pricePrv !== 0
+        ? token?.pricePrv
+        : isNaN(_pricePrv)
+          ? 0
+          : _pricePrv,
+    priceUsd: _priceUsd,
+  };
+};
+

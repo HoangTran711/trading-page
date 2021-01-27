@@ -10,17 +10,18 @@ import './tailwind.output.css'
 function App() {
   const [tokenActive, setTokenActive] = React.useState('')
   const [tokens, setTokens] = React.useState([])
-
   const [tokenSell, setTokenSell] = React.useState({
     Icon: "https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/prv@2x.png",
     id: '0000000000000000000000000000000000000000000000000000000000000004',
     name: 'PRV',
     displayName: 'Privacy',
-    symbol: 'PRV',
+    symbol: 'pPRV',
     pDecimals: 9,
     hasIcon: true,
     originalSymbol: 'PRV',
     isVerified: true,
+    priceUsd: 0,
+    pricePrv:1
   })
   const [valueInputSearch, setValueInputSearch] = React.useState('')
   const [tokenReceive, setTokenReceive] = React.useState({
@@ -33,6 +34,7 @@ function App() {
     hasIcon: false,
     originalSymbol: '',
     isVerified: false,
+    priceUsd: 0
   })
   const { data, isSuccess } = useFetchToken()
   const [pairs, setPairs] = React.useState([])
