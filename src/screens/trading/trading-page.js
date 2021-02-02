@@ -1,3 +1,4 @@
+/*global chrome*/
 import React from 'react'
 import './trading-page.css'
 import { MyContext } from 'Context/MyContext'
@@ -34,6 +35,19 @@ export const TradingPage = ({outputValue, outputToken}) => {
 	}
 	const onErrorLoadImageReceive = () => {
 		setIsErrorReceive(true)
+	}
+	const onHandleConnectWallet = () => {
+		
+		chrome.runtime.sendMessage('fmchpamnkldcnijdihkhklbacckphfkh','ping', response => {
+			if(chrome.runtime.lastError) {
+				console.log(1)
+				setTimeout(onHandleConnectWallet, 1000);
+			} else {
+				console.log(response)
+				// Do whatever you want, background script is ready now
+			}
+		});
+		/* eslint-enable no-undef */
 	}
 	React.useEffect(() => {
 		if(pairs) {
@@ -106,8 +120,8 @@ export const TradingPage = ({outputValue, outputToken}) => {
 
 			<div className="mt-4">
 			<Tooltip>
-				<div className="btn-primary cursor-not-allowed opacity-60">
-					<a href="#/" className="cursor-not-allowed" >Connect LSB Wallet</a>
+				<div onClick={onHandleConnectWallet} className="btn-primary cursor-pointer">
+					<a href={() => false} className="cursor-pointer" >Connect LSB Wallet</a>
 				</div>
 			</Tooltip>
 			</div>

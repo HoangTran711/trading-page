@@ -33,7 +33,7 @@ export const Navbar = () => {
 			</div>
 			<Tooltip>
 				<div className="cursor-not-allowed btn-trans">
-					<a href="#/" className="btn cursor-not-allowed">Connect LSB Wallet</a>
+					<a href={()=>false} className="btn cursor-not-allowed">Connect LSB Wallet</a>
 				</div>
 			</Tooltip>
 		</div>
