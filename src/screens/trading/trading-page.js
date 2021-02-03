@@ -2,6 +2,7 @@
 import React from 'react'
 import './trading-page.css'
 import { MyContext } from 'Context/MyContext'
+import { SpinnerWallet } from 'components/Spinner/spinner-wallet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
@@ -10,13 +11,13 @@ import { estimateFeeTrade } from 'services/trading/fee/fee'
 import { calculateSizeImpact, getPoolSize } from 'services/trading/utils'
 import { OverlayDetail } from './components/overlay-detail'
 import { useGetPairsData} from 'services/trading/fee/pairsData'
-import { Tooltip } from 'components/Tooltips/Tooltips'
 
 
 export const TradingPage = ({outputValue, outputToken}) => {
 	const data = React.useContext(MyContext)
 	const [isErrorSell, setIsErrorSell] = React.useState(false)
 	const [isErrorReceive, setIsErrorReceive] = React.useState(false)
+	const [isLoading, setIsLoading] = React.useState(false)
 	const { data: pairs, isSuccess:fetchedPairs } = useGetPairsData()
 	const [poolSize, setPoolSize] = React.useState({
 		output1: null,
@@ -36,17 +37,43 @@ export const TradingPage = ({outputValue, outputToken}) => {
 	const onErrorLoadImageReceive = () => {
 		setIsErrorReceive(true)
 	}
-	const onHandleConnectWallet = () => {
+	const onOpenExtension = () => {
+		var url = "chrome-extension://deebmnkijhopcgcbjihnneepmaandjgk/index.html";
+		window.open(url);
+	}
+	const onHandleConnectWallet = (count = 0) => {
+		setIsLoading(true)
 		
-		chrome.runtime.sendMessage('fmchpamnkldcnijdihkhklbacckphfkh','ping', response => {
-			if(chrome.runtime.lastError) {
-				console.log(1)
-				setTimeout(onHandleConnectWallet, 1000);
-			} else {
-				console.log(response)
-				// Do whatever you want, background script is ready now
-			}
-		});
+		const obj = {
+			title: 'request_connect_wallet',
+			data: ''
+		}
+    chrome.runtime.sendMessage('deebmnkijhopcgcbjihnneepmaandjgk',JSON.stringify(obj), response => {
+			console.log(response)
+      if(chrome.runtime.lastError) {
+				if(count < 10) {
+					setTimeout(() => {
+						onHandleConnectWallet(count + 1)
+					}, 1000);
+				} else {
+					data.setConnectSuccess(false)
+					data.setConnectFailed(true)
+					setIsLoading(false)
+				}
+				
+      } else {
+				if(response.status !== 'successfully') {
+					data.setConnectSuccess(false)
+					data.setConnectFailed(true)
+					setIsLoading(false)
+				} else {
+					data.setConnectFailed(false)
+					data.setConnectSuccess(true)
+					setIsLoading(false)
+				}
+				
+      }
+    });
 		/* eslint-enable no-undef */
 	}
 	React.useEffect(() => {
@@ -118,13 +145,12 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				</div>
 			</div>
 
-			<div className="mt-4">
-			<Tooltip>
-				<div onClick={onHandleConnectWallet} className="btn-primary cursor-pointer">
-					<a href={() => false} className="cursor-pointer" >Connect LSB Wallet</a>
+				<div onClick={() => {
+					onOpenExtension()
+					onHandleConnectWallet()
+				}} className={`btn-primary cursor-pointer mt-4 ${ isLoading ? 'pointer-events-none opacity-70' : '' }`}>
+					{!isLoading ? <a href={() => false} className="cursor-pointer" >Connect LSB Wallet</a> : <SpinnerWallet/>}
 				</div>
-			</Tooltip>
-			</div>
 			<OverlayDetail impact={impact} fee={fee} poolSize={poolSize}/>
 		</div>
 	)

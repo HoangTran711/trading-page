@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import { Navbar } from './components/Navbar/Navbar'
+import { PopupFailed, PopupSuccess } from './components/popup/popup'
 import TradingPage from './screens/trading/trading-page'
 import { MyContext } from 'Context/MyContext'
 import { SelectToken } from 'screens/trading/components/select-token'
@@ -39,6 +40,8 @@ function App() {
   const { data, isSuccess } = useFetchToken()
   const [pairs, setPairs] = React.useState([])
   const [ amount,setAmount ] = React.useState('0')
+  const [connectFailed, setConnectFailed] = React.useState(false)
+  const [connectSuccess, setConnectSuccess] = React.useState(false)
   const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)
   const onHandleSelectTokens = (active = null) => {
     if(active) {
@@ -74,11 +77,17 @@ function App() {
       amount: amount,
       setAmount,
       pairs,
-      setPairs
+      setPairs,
+      connectFailed,
+      setConnectFailed,
+      connectSuccess,
+      setConnectSuccess
     }}>
       <div>
         {isOpenSelectTokens ? <SelectToken/> : null}
         <Navbar/>
+        {connectFailed ? <PopupFailed/> : null}
+        {connectSuccess ? <PopupSuccess /> : null}
         <TradingPage 
           inputToken={tokenSell}
           inputValue={parseFloat(amount.replace(",", ".")) * Math.pow(10,tokenSell?.pDecimals)}
