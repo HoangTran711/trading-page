@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import { MyContext } from 'Context/MyContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,7 +17,7 @@ export const PopupFailed = () => {
 				<span>Connect failed, please login or create wallet before connect to your wallet</span>
 				<div className="btn-pop-container">
 					<div onClick={() => data.setConnectFailed(false)} className="btn-popup">
-						<a href={() => false}>
+						<a>
 							Ok, I got it
 						</a>
 					</div>
@@ -38,7 +39,7 @@ export const PopupSuccess = () => {
 				<span>Successful connection</span>
 				<div className="btn-pop-container">
 					<div onClick={() => data.setConnectSuccess(false)} className="btn-popup">
-						<a href={() => false}>
+						<a>
 							Ok, I got it
 						</a>
 					</div>

@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /*global chrome*/
 import React from 'react'
 import './trading-page.css'
 import { MyContext } from 'Context/MyContext'
 import { SpinnerWallet } from 'components/Spinner/spinner-wallet'
+import { PRV_TOKEN_ID } from 'constant/token'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
@@ -16,8 +18,18 @@ import { useGetPairsData} from 'services/trading/fee/pairsData'
 export const TradingPage = ({outputValue, outputToken}) => {
 	const data = React.useContext(MyContext)
 	const [isErrorSell, setIsErrorSell] = React.useState(false)
+	const [inforTrade, setInforTrade] = React.useState({
+		tokenIdSell: data.tokenSell.id,
+    tokenIdBuy: data.tokenReceive.id,
+    sellAmount: data.amount,
+    minimumAcceptableAmount: outputValue,
+    nativeFee: '0',
+    privacyFee: '0',
+    tradingFee: '0'
+	})
 	const [isErrorReceive, setIsErrorReceive] = React.useState(false)
 	const [isLoading, setIsLoading] = React.useState(false)
+	const [isSuccess, setIsSuccess] = React.useState(false)
 	const { data: pairs, isSuccess:fetchedPairs } = useGetPairsData()
 	const [poolSize, setPoolSize] = React.useState({
 		output1: null,
@@ -41,6 +53,41 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		var url = "chrome-extension://deebmnkijhopcgcbjihnneepmaandjgk/index.html";
 		window.open(url);
 	}
+	const onHandleSwap = (count = 0) => {
+		const infor = {
+			...inforTrade,
+			tokenIdSell: data.tokenSell.id,
+			tokenIdBuy: data.tokenReceive.id,
+			minimumAcceptableAmount: (outputValue).toString(),
+			sellAmount: (data.amount * Math.pow(10, data.tokenSell.pDecimals)).toString(),
+		}
+		const obj = {
+			title: 'request_swap_token',
+			data: infor
+		}
+		setIsLoading(true)
+		chrome.runtime.sendMessage('deebmnkijhopcgcbjihnneepmaandjgk',obj, response => {
+			if(chrome.runtime.lastError) {
+				if(count < 10) {
+					setTimeout(() => {
+						onHandleSwap(count + 1)
+					}, 1000);
+				} else {
+					setIsLoading(false)
+				}
+				
+      } else {
+				if(response.status !== 'successfully') {
+					alert('failed')
+					setIsLoading(false)
+				} else {
+					alert('success')
+					setIsLoading(false)
+				}
+				
+      }
+		})
+	}
 	const onHandleConnectWallet = (count = 0) => {
 		setIsLoading(true)
 		
@@ -48,7 +95,8 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			title: 'request_connect_wallet',
 			data: ''
 		}
-    chrome.runtime.sendMessage('deebmnkijhopcgcbjihnneepmaandjgk',JSON.stringify(obj), response => {
+		
+    chrome.runtime.sendMessage('deebmnkijhopcgcbjihnneepmaandjgk',obj, response => {
 			console.log(response)
       if(chrome.runtime.lastError) {
 				if(count < 10) {
@@ -69,6 +117,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				} else {
 					data.setConnectFailed(false)
 					data.setConnectSuccess(true)
+					setIsSuccess(true)
 					setIsLoading(false)
 				}
 				
@@ -92,6 +141,20 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			})
 			let poolSz  = getPoolSize(data.tokenSell, data.tokenReceive, pairs?.pairs || [])
 			setPoolSize(poolSz)
+			if(fee.feeToken.id !== PRV_TOKEN_ID) {
+				setInforTrade({
+					...inforTrade, 
+					nativeFee: '0',
+					privacyFee: fee.fee.toString(),
+					
+				})
+			} else {
+				setInforTrade({
+					...inforTrade, 
+					privacyFee: '0',
+					nativeFee: fee.fee.toString(),
+				})
+			}
       setFee(fee)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,12 +208,17 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				</div>
 			</div>
 
-				<div onClick={() => {
+				{!isSuccess ? <div onClick={() => {
 					onOpenExtension()
 					onHandleConnectWallet()
 				}} className={`btn-primary cursor-pointer mt-4 ${ isLoading ? 'pointer-events-none opacity-70' : '' }`}>
-					{!isLoading ? <a href={() => false} className="cursor-pointer" >Connect LSB Wallet</a> : <SpinnerWallet/>}
-				</div>
+					{!isLoading ? <a className="cursor-pointer" >Connect LSB Wallet</a> : <SpinnerWallet/>}
+				</div> : <div onClick={() => {
+					onOpenExtension()
+					onHandleSwap()
+				}} className={`btn-primary cursor-pointer mt-4 ${ isLoading ? 'pointer-events-none opacity-70' : '' }  ${outputValue ? '': 'pointer-events-none opacity-70'}`}>
+					{!isLoading ? <a className={`cursor-pointer`} >Swap</a> : <SpinnerWallet/>}
+				</div>}
 			<OverlayDetail impact={impact} fee={fee} poolSize={poolSize}/>
 		</div>
 	)
