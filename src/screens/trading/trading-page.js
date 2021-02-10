@@ -28,6 +28,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
     tradingFee: '0'
 	})
 	const [isErrorReceive, setIsErrorReceive] = React.useState(false)
+	const [accountTrading, setAccountTrading] = React.useState('')
 	const [isLoading, setIsLoading] = React.useState(false)
 	const [isSuccess, setIsSuccess] = React.useState(false)
 	const { data: pairs, isSuccess:fetchedPairs } = useGetPairsData()
@@ -60,6 +61,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			tokenIdBuy: data.tokenReceive.id,
 			minimumAcceptableAmount: (outputValue).toString(),
 			sellAmount: (data.amount * Math.pow(10, data.tokenSell.pDecimals)).toString(),
+			accountName: accountTrading
 		}
 		const obj = {
 			title: 'request_swap_token',
@@ -78,10 +80,16 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				
       } else {
 				if(response.status !== 'successfully') {
-					alert('failed')
+					data.setConnectFailed({
+						title:'Request Trade',
+						content: 'Trade request failed!'
+					})
 					setIsLoading(false)
 				} else {
-					alert('success')
+					data.setConnectSuccess({
+						title:'Request Trade',
+						content: 'Successful trade request!'
+					})
 					setIsLoading(false)
 				}
 				
@@ -97,30 +105,66 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		}
 		
     chrome.runtime.sendMessage('deebmnkijhopcgcbjihnneepmaandjgk',obj, response => {
-			console.log(response)
+		
       if(chrome.runtime.lastError) {
-				if(count < 10) {
+			if(count < 10) {
+				setTimeout(() => {
+					onHandleConnectWallet(count + 1)
+				}, 1000);
+			} else {
+				data.setConnectSuccess({
+					title:'',
+					content: ''
+				})
+				data.setConnectFailed({
+					title:'Connect',
+					content: 'Connection failed!'
+				})
+				setIsLoading(false)
+			}
+				
+      } else {
+			
+			if(response.status === 'waiting') {
+				if(count < 20) {
 					setTimeout(() => {
 						onHandleConnectWallet(count + 1)
 					}, 1000);
+					
 				} else {
-					data.setConnectSuccess(false)
-					data.setConnectFailed(true)
+					data.setConnectSuccess({
+						title:'',
+						content: ''
+					})
+					data.setConnectFailed({
+						title:'Connect',
+						content: 'Connection failed!'
+					})
 					setIsLoading(false)
 				}
-				
-      } else {
-				if(response.status !== 'successfully') {
-					data.setConnectSuccess(false)
-					data.setConnectFailed(true)
-					setIsLoading(false)
-				} else {
-					data.setConnectFailed(false)
-					data.setConnectSuccess(true)
-					setIsSuccess(true)
-					setIsLoading(false)
-				}
-				
+			} else if (response.status === 'successfully') { 
+				setAccountTrading(response.data)
+				data.setConnectFailed({
+					title:'',
+					content: ''
+				})
+				data.setConnectSuccess({
+					title:'Connection',
+					content: 'Successful connection!'
+				})
+				setIsSuccess(true)
+				setIsLoading(false)
+			} else {
+				data.setConnectSuccess({
+					title:'',
+					content: ''
+				})
+				data.setConnectFailed({
+					title:'Connect',
+					content: 'Connection failed!'
+				})
+				setIsLoading(false)
+			}
       }
     });
 		/* eslint-enable no-undef */

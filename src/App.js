@@ -40,8 +40,14 @@ function App() {
   const { data, isSuccess } = useFetchToken()
   const [pairs, setPairs] = React.useState([])
   const [ amount,setAmount ] = React.useState('0')
-  const [connectFailed, setConnectFailed] = React.useState(false)
-  const [connectSuccess, setConnectSuccess] = React.useState(false)
+  const [connectFailed, setConnectFailed] = React.useState({
+    title:'',
+    content: ''
+  })
+  const [connectSuccess, setConnectSuccess] = React.useState({
+    title:'',
+    content: ''
+  })
   const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)
   const onHandleSelectTokens = (active = null) => {
     if(active) {
@@ -86,8 +92,8 @@ function App() {
       <div>
         {isOpenSelectTokens ? <SelectToken/> : null}
         <Navbar/>
-        {connectFailed ? <PopupFailed/> : null}
-        {connectSuccess ? <PopupSuccess /> : null}
+        {connectFailed.title ? <PopupFailed title={connectFailed.title} content={connectFailed.content}/> : null}
+        {connectSuccess.title ? <PopupSuccess title={connectSuccess.title} content={connectSuccess.content}  /> : null}
         <TradingPage 
           inputToken={tokenSell}
           inputValue={parseFloat(amount.replace(",", ".")) * Math.pow(10,tokenSell?.pDecimals)}
