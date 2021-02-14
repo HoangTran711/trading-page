@@ -124,7 +124,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			}
 				
       } else {
-			
+			console.log(response)
 			if(response.status === 'waiting') {
 				if(count < 20) {
 					setTimeout(() => {
@@ -155,15 +155,31 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				setIsSuccess(true)
 				setIsLoading(false)
 			} else {
+				
 				data.setConnectSuccess({
 					title:'',
 					content: ''
 				})
-				data.setConnectFailed({
-					title:'Connect',
-					content: 'Connection failed!'
-				})
-				setIsLoading(false)
+				if(response.data === 'not_login_yet'){
+					if(count < 30) {
+						setTimeout(() => {
+							onHandleConnectWallet(count + 1)
+						}, 1000);
+						
+					} else {
+						data.setConnectFailed({
+							title:'Connect',
+							content: 'Please login before connected to your wallet!'
+						})
+						setIsLoading(false)
+					}
+				} else {
+					data.setConnectFailed({
+						title:'Connect',
+						content: 'Connection failed!'
+					})
+					setIsLoading(false)
+				}
 			}
       }
     });
