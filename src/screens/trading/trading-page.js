@@ -52,7 +52,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 	}
 	const onOpenExtension = () => {
 		var url = "chrome-extension://deebmnkijhopcgcbjihnneepmaandjgk/index.html";
-		window.open(url);
+		window.open(url, "extension_popup", "width=360, height=600, status=no, scrollbar=yes, top=100, left=100000");
 	}
 	const onHandleSwap = (count = 0) => {
 		const infor = {
@@ -61,7 +61,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			tokenIdBuy: data.tokenReceive.id,
 			minimumAcceptableAmount: (outputValue).toString(),
 			sellAmount: (data.amount * Math.pow(10, data.tokenSell.pDecimals)).toString(),
-			accountName: accountTrading
+			accountName: accountTrading.accountName
 		}
 		const obj = {
 			title: 'request_swap_token',
@@ -81,14 +81,16 @@ export const TradingPage = ({outputValue, outputToken}) => {
       } else {
 				if(response.status !== 'successfully') {
 					data.setConnectFailed({
-						title:'Request Trade',
+						title:'Trade request',
 						content: 'Trade request failed!'
 					})
 					setIsLoading(false)
 				} else {
+					console.log(response.data.txId)
+					data.setLinkDetail(response.data.txId)
 					data.setConnectSuccess({
-						title:'Request Trade',
-						content: 'Successful trade request!'
+						title:'Trade request',
+						content: 'View on mainnet'
 					})
 					setIsLoading(false)
 				}
@@ -105,9 +107,9 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		}
 		
     chrome.runtime.sendMessage('deebmnkijhopcgcbjihnneepmaandjgk',obj, response => {
-		
+		console.log(response, count)
       if(chrome.runtime.lastError) {
-			if(count < 10) {
+			if(count < 60) {
 				setTimeout(() => {
 					onHandleConnectWallet(count + 1)
 				}, 1000);
@@ -118,15 +120,16 @@ export const TradingPage = ({outputValue, outputToken}) => {
 				})
 				data.setConnectFailed({
 					title:'Connect',
-					content: 'Connection failed!'
+					content: 'Connection failed'
 				})
 				setIsLoading(false)
 			}
 				
       } else {
-			console.log(response)
+		
 			if(response.status === 'waiting') {
-				if(count < 20) {
+				if(count < 100) {
+					
 					setTimeout(() => {
 						onHandleConnectWallet(count + 1)
 					}, 1000);
@@ -138,19 +141,21 @@ export const TradingPage = ({outputValue, outputToken}) => {
 					})
 					data.setConnectFailed({
 						title:'Connect',
-						content: 'Connection failed!'
+						content: 'Connection failed'
 					})
 					setIsLoading(false)
 				}
 			} else if (response.status === 'successfully') { 
 				setAccountTrading(response.data)
+				console.log(response.data)
+				
 				data.setConnectFailed({
 					title:'',
 					content: ''
 				})
 				data.setConnectSuccess({
-					title:'Connection',
-					content: 'Successful connection!'
+					title:'Connect',
+					content: 'Successful connection'
 				})
 				setIsSuccess(true)
 				setIsLoading(false)
@@ -236,11 +241,16 @@ export const TradingPage = ({outputValue, outputToken}) => {
 		data.setTokenSell(data.tokenReceive)
 		data.setTokenReceive(data.tokenSell)
 	}
+	
 	return (
 		<div className="trading-page">
 			<div className="trading-top">
+				<div className="header">
 				<span>From</span>
+				<span className="balance">Balance: {(accountTrading?.tokens?.find(token => token.tokenId === data.tokenSell.id))?.tokenBalance || '- -'}</span>
+				</div>
 				<div className="input-container">
+					
 					<input onChange={(e) => {data.setAmount(e.target.value)}} type="number" placeholder="0" value={data.amount} />
 					{data.tokenSell.id ? <div onClick={() => data.onHandleSelectTokens('sell')}  className="token-select-input  cursor-pointer">
 						{!isErrorSell ? <img onError={onErrorLoadImageSell} className="token-select" src={data.tokenSell.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}
@@ -257,6 +267,7 @@ export const TradingPage = ({outputValue, outputToken}) => {
 			<div className="trading-bottom">
 				<span>To</span>
 				<div className="input-container">
+					
 					<input onChange={() =>{}} type="text" value={outputValue  * Math.pow(10, -outputToken?.pDecimals) || 0}/>
 					{data.tokenReceive?.id ? <div className="token-select-output">
 					{!isErrorReceive ? <img onError={onErrorLoadImageReceive} className="token-img-output" src={data.tokenReceive.Icon} alt="token"/>: <FontAwesomeIcon className="icon-unknown" icon={faQuestionCircle} />}

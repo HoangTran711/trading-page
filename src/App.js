@@ -40,6 +40,7 @@ function App() {
   const { data, isSuccess } = useFetchToken()
   const [pairs, setPairs] = React.useState([])
   const [ amount,setAmount ] = React.useState('0')
+  const [linkDetail, setLinkDetail] = React.useState('')
   const [connectFailed, setConnectFailed] = React.useState({
     title:'',
     content: ''
@@ -87,7 +88,9 @@ function App() {
       connectFailed,
       setConnectFailed,
       connectSuccess,
-      setConnectSuccess
+      setConnectSuccess,
+      linkDetail: linkDetail,
+      setLinkDetail
     }}>
       <div>
         {isOpenSelectTokens ? <SelectToken/> : null}

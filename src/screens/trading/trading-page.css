@@ -46,6 +46,7 @@ input::-webkit-inner-spin-button {
 	border-radius: 10px;
 	padding:20px;
 	color:#A4A4A4;
+	position:relative;
 }
 .trading-top span {
 	font-size:18px;
@@ -60,6 +61,7 @@ input::-webkit-inner-spin-button {
 	color:#A4A4A4;
 	font-size: 27px;
 	width:120px;
+
 }
 .trading-top .input-container {
 	margin-top: 10px;
@@ -67,6 +69,12 @@ input::-webkit-inner-spin-button {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-end;
+	position: relative;
+}
+.trading-top .header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 .trading-top .input-container img {
 	width:40px;
