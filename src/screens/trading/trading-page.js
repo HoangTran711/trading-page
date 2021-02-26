@@ -306,7 +306,6 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		data.setTokenSell(data.tokenReceive)
 		data.setTokenReceive(data.tokenSell)
 	}
-
 	return (
 		<div className='trading-page'>
 			<div className='trading-top'>
