@@ -63,6 +63,7 @@ function App() {
 				try {
 					const tradeStatus = await getTransactionByTxId(hisTrade[i].txId)
 					if (tradeStatus.data.Result) {
+						var focusing = document.hasFocus()
 						notifyMe(
 							'Trade success',
 							`Swap
@@ -73,9 +74,11 @@ function App() {
 						${hisTrade[i].tokenSell.name} for ${hisTrade[i].minimumAcceptableAmount}
 						${hisTrade[i].tokenReceive.name}`
 						)
-						setTimeout(() => {
-							onClearPopup(i)
-						}, 3000)
+						if (focusing) {
+							setTimeout(() => {
+								onClearPopup(i)
+							}, 3000)
+						}
 					}
 					tradeDetail.push({
 						status: tradeStatus.data.Result,
