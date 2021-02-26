@@ -1,4 +1,4 @@
-export const IS_RUNNING_AS_EXTENSION = !!chrome?.runtime?.id
+export const IS_RUNNING_AS_EXTENSION = ''
 export const SYNC_CHANNEL_NAME = '1i91je0jsdionsdqwe012'
 export const WALLET_BACKUP_KEY = 'BACKUP_WALLET'
 export const PASS_KEY = 'PASSWORD'
