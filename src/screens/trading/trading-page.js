@@ -18,7 +18,6 @@ import {
 	useGetCustomTokensBalance,
 	useGetNativeTokenBalance,
 } from 'queries/account.queries'
-import { notifyMe } from 'services/notification-desktop'
 const TradingPage = ({ outputValue, outputToken }) => {
 	const data = React.useContext(MyContext)
 	const [isErrorSell, setIsErrorSell] = React.useState(false)
@@ -439,9 +438,8 @@ const TradingPage = ({ outputValue, outputToken }) => {
 			{!isSuccess ? (
 				<div
 					onClick={() => {
-						// onOpenExtension()
-						// onHandleConnectWallet()
-						notifyMe()
+						onOpenExtension()
+						onHandleConnectWallet()
 					}}
 					className={`btn-primary cursor-pointer mt-4 ${
 						isLoading ? 'pointer-events-none opacity-70' : ''

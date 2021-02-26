@@ -1,33 +1,28 @@
-export function notifyMe() {
-	if (!window.Notification) {
-		console.log('Browser does not support notifications.')
-	} else {
-		// check if permission is already granted
-		if (Notification.permission === 'granted') {
-			// show notification here
-			var notify = new Notification('Hi there!', {
-				body: 'How are you doing?',
-				icon: 'https://picsum.photos/200',
-			})
-			console.log(notify)
-		} else {
-			// request permission from user
-			Notification.requestPermission()
-				.then(function (p) {
-					if (p === 'granted') {
-						// show notification here
-						var notify = new Notification('Hi there!', {
-							body: 'How are you doing?',
-							icon: 'https://picsum.photos/200',
-						})
-						console.log(notify)
-					} else {
-						console.log('User blocked notifications.')
-					}
-				})
-				.catch(function (err) {
-					console.error(err)
-				})
+export function notifyMe(
+	title = 'TITLE OF NOTIFICATION',
+	body = 'Hey! You are on notice!'
+) {
+	if (!('Notification' in window)) {
+		alert('This browser does not support system notifications')
+	} else if (Notification.permission === 'granted') {
+		notify()
+	} else if (Notification.permission !== 'denied') {
+		Notification.requestPermission(function (permission) {
+			if (permission === 'granted') {
+				notify()
+			}
+		})
+	}
+
+	function notify() {
+		var notification = new Notification(title, {
+			icon: 'https://picsum.photos/200',
+			body: body,
+		})
+
+		notification.onclick = function () {
+			window.location.href = 'https://picsum.photos/'
 		}
+		setTimeout(notification.close.bind(notification), 7000)
 	}
 }

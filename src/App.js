@@ -9,6 +9,7 @@ import { SelectToken } from 'screens/trading/components'
 import { useFetchToken } from 'queries/token.queries'
 import { BottomButton } from './bottom-button/bottom-button'
 import './tailwind.output.css'
+import { notifyMe } from 'services/notification-desktop'
 function App() {
 	const [tokenActive, setTokenActive] = React.useState('')
 	const [tokens, setTokens] = React.useState([])
@@ -62,6 +63,16 @@ function App() {
 				try {
 					const tradeStatus = await getTransactionByTxId(hisTrade[i].txId)
 					if (tradeStatus.data.Result) {
+						notifyMe(
+							'Trade success',
+							`Swap
+						${
+							parseFloat(hisTrade[i].amount) *
+							Math.pow(10, hisTrade[i].tokenSell.pDecimals)
+						}
+						${hisTrade[i].tokenSell.name} for ${hisTrade[i].minimumAcceptableAmount}
+						${hisTrade[i].tokenReceive.name}`
+						)
 						setTimeout(() => {
 							onClearPopup(i)
 						}, 3000)
@@ -113,6 +124,7 @@ function App() {
 			onHandleGetTradeDetail()
 		}, 7000)
 		return () => clearInterval(fetchDetail)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 	return (
 		<MyContext.Provider
@@ -141,7 +153,7 @@ function App() {
 				tradeDetail: tradeDetail,
 			}}
 		>
-			<div>
+			<div onLoad={() => notifyMe()}>
 				{isOpenSelectTokens ? <SelectToken /> : null}
 				<Navbar />
 				{connectFailed.title ? (
