@@ -71,10 +71,16 @@ input::-webkit-inner-spin-button {
 	align-items: flex-end;
 	position: relative;
 }
-.trading-top .header {
+.trading-page .header {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+}
+.trading-page .header .balance {
+	font-size: 16px;
+}
+.trading-page .header .prefix {
+	font-size:20px
 }
 .trading-top .input-container img {
 	width:40px;

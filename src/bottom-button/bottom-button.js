@@ -5,16 +5,14 @@ import './bottom-buttom.css'
 
 export function BottomButton() {
 	return (
-		<div className="bottom-button">
-			<div className="left">
+		<div className='bottom-button'>
+			<div className='left'>
 				<Tooltip>
-					<div className="connect cursor-not-allowed opacity-60">
-						<a className="cursor-not-allowed" >Connect to LSB Wallet</a>
+					<div className='connect cursor-not-allowed opacity-60'>
+						<a className='cursor-not-allowed'>Connect to LSB Wallet</a>
 					</div>
 				</Tooltip>
 			</div>
 		</div>
 	)
 }
-
-
