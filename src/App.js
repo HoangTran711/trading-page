@@ -9,7 +9,7 @@ import { SelectToken } from 'screens/trading/components'
 import { useFetchToken } from 'queries/token.queries'
 import { BottomButton } from './bottom-button/bottom-button'
 import './tailwind.output.css'
-import { notifyMe } from 'services/notification-desktop'
+import { notifyMe, onRequestPermission } from 'services/notification-desktop'
 function App() {
 	const [tokenActive, setTokenActive] = React.useState('')
 	const [tokens, setTokens] = React.useState([])
@@ -54,30 +54,42 @@ function App() {
 		content: '',
 	})
 	const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)
-	const onHandleGetTradeDetail = async () => {
+	const onHandleGetTradeDetail = async (idSent) => {
 		//Will update soon
 		const hisTrade = JSON.parse(localStorage.getItem('his_trade'))
 		const tradeDetail = []
 		if (hisTrade) {
+			if (hisTrade.length === 0) {
+				//Clear idSent
+				idSent = []
+			}
 			for (let i = 0; i < hisTrade.length; i += 1) {
 				try {
 					const tradeStatus = await getTransactionByTxId(hisTrade[i].txId)
 					if (tradeStatus.data.Result) {
 						var focusing = document.hasFocus()
-						notifyMe(
-							'Trade success',
-							`Swap
-						${
-							parseFloat(hisTrade[i].amount) *
-							Math.pow(10, hisTrade[i].tokenSell.pDecimals)
-						}
-						${hisTrade[i].tokenSell.name} for ${hisTrade[i].minimumAcceptableAmount}
-						${hisTrade[i].tokenReceive.name}`
-						)
 						if (focusing) {
 							setTimeout(() => {
 								onClearPopup(i)
 							}, 3000)
+						} else {
+							if (!idSent.includes(hisTrade[i].txId)) {
+								notifyMe(
+									'Trade success',
+									'Swap ' +
+										(
+											parseFloat(hisTrade[i].amount) *
+											Math.pow(10, hisTrade[i].tokenSell.pDecimals)
+										).toString() +
+										' ' +
+										hisTrade[i].tokenSell.name +
+										' for ' +
+										hisTrade[i].minimumAcceptableAmount +
+										' ' +
+										hisTrade[i].tokenReceive.name
+								)
+								idSent.push(hisTrade[i].txId)
+							}
 						}
 					}
 					tradeDetail.push({
@@ -88,6 +100,7 @@ function App() {
 						minimumAcceptableAmount: hisTrade[i].minimumAcceptableAmount,
 						txId: hisTrade[i].txId,
 					})
+					console.log(idSent)
 				} catch (err) {
 					console.log(err)
 				}
@@ -122,9 +135,11 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isSuccess])
 	React.useEffect(() => {
+		let idSent = []
+		onRequestPermission()
 		onHandleGetTradeDetail()
 		let fetchDetail = setInterval(async () => {
-			onHandleGetTradeDetail()
+			onHandleGetTradeDetail(idSent)
 		}, 7000)
 		return () => clearInterval(fetchDetail)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -156,7 +171,7 @@ function App() {
 				tradeDetail: tradeDetail,
 			}}
 		>
-			<div onLoad={() => notifyMe()}>
+			<div>
 				{isOpenSelectTokens ? <SelectToken /> : null}
 				<Navbar />
 				{connectFailed.title ? (

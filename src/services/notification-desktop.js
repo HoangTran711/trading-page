@@ -1,3 +1,13 @@
+import { LOCALHOST } from 'constants/api'
+export const onRequestPermission = () => {
+	if (Notification.permission === 'granted') {
+		console.log('Successful permission notification')
+	} else if (Notification.permission !== 'denied') {
+		Notification.requestPermission().then((permission) => {
+			console.log(permission)
+		})
+	}
+}
 export function notifyMe(
 	title = 'TITLE OF NOTIFICATION',
 	body = 'Hey! You are on notice!'
@@ -16,13 +26,19 @@ export function notifyMe(
 
 	function notify() {
 		var notification = new Notification(title, {
-			icon: 'https://picsum.photos/200',
+			icon: '../assets/logo.png',
 			body: body,
 		})
 
 		notification.onclick = function () {
-			window.location.href = 'https://picsum.photos/'
+			redirect_blank(LOCALHOST)
 		}
 		setTimeout(notification.close.bind(notification), 7000)
 	}
+}
+export function redirect_blank(url) {
+	var a = document.createElement('a')
+	a.target = '_blank'
+	a.href = url
+	a.click()
 }
