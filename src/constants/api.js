@@ -5,4 +5,4 @@ export const FULL_NODE = 'https://lb-fullnode.incognito.org/fullnode'
 export const LOCALHOST = 'http://localhost:3000/'
 export const MAIN_HOST = 'https://pswap.app/'
 export const TEST_HOST =
-	'https://trading-page-git-feat-connect-wallet-hoangtran711.vercel.app/'
+	'https://trading-git-feat-connect-wallet-hoangtran711.vercel.app/'
