@@ -1,0 +1,47 @@
+.popup-transaction{
+    position: fixed;
+    bottom: 0;
+    right:0;
+    max-width: 270px;
+}
+.popup-transaction li {
+    background-color: white;
+    margin:10px;
+    display: flex;
+    flex-direction: row;
+    padding:10px;
+    border-radius: 5px;
+    animation: moveBottomPopup .3s;
+    animation-fill-mode: forwards;
+}
+.popup-transaction li .tick {
+    align-self: center;
+    margin-right: 15px;
+    font-size: 30px;
+
+}
+.popup-transaction li .txt-frame {
+    font-size: 15px;
+    font-family: 'Google sans';
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+.popup-transaction li .txt-frame .view {
+    color:#BDBDBD;
+    font-size: 15px;
+}
+.popup-transaction li .txt-frame .view:hover {
+    text-decoration: underline;
+    
+}
+@keyframes moveBottomPopup {
+    from {
+        opacity: 0;
+        transform: translateY(100px)
+    } 
+    to {
+        opacity: 1;
+        transform: translateY(0px)
+    }
+}
