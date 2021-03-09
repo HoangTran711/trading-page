@@ -13,6 +13,8 @@ import { notifyMe, onRequestPermission } from 'services/notification-desktop'
 function App() {
 	const [tokenActive, setTokenActive] = React.useState('')
 	const [tokens, setTokens] = React.useState([])
+	const [isOpenSetting, setIsOpenSetting] = React.useState(false)
+	const [slippage, setSlippage] = React.useState(1)
 	const [tokenSell, setTokenSell] = React.useState({
 		Icon:
 			'https://s3.amazonaws.com/incognito-org/wallet/cryptocurrency-icons/32@2x/color/prv@2x.png',
@@ -169,11 +171,18 @@ function App() {
 				setLinkDetail,
 				onHandleGetTradeDetail,
 				tradeDetail: tradeDetail,
+				isOpenSetting: isOpenSetting,
+				setIsOpenSetting,
+				slippage: slippage,
+				setSlippage,
 			}}
 		>
 			<div>
 				{isOpenSelectTokens ? <SelectToken /> : null}
 				<Navbar />
+				{isOpenSetting ? (
+					<div className='overlay' onClick={() => setIsOpenSetting(false)} />
+				) : null}
 				{connectFailed.title ? (
 					<PopupFailed
 						title={connectFailed.title}
@@ -188,6 +197,7 @@ function App() {
 				) : null}
 				<PopupTransaction />
 				<Trading
+					slippage={slippage}
 					inputToken={tokenSell}
 					inputValue={
 						parseFloat(amount.replace(',', '.')) *

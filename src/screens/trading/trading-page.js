@@ -6,7 +6,11 @@ import { MyContext } from 'Context/MyContext'
 import { SpinnerWallet } from 'components'
 import { PRV_TOKEN_ID } from 'constant/token'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import {
+	faChevronDown,
+	faArrowDown,
+	faCog,
+} from '@fortawesome/free-solid-svg-icons'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
 import { withCalculateOutput } from 'services/trading'
 import { estimateFeeTrade } from 'services/trading/fee/fee'
@@ -14,6 +18,7 @@ import { calculateSizeImpact, getPoolSize } from 'services/trading/utils'
 import { OverlayDetail } from './components'
 import { useGetPairsData } from 'services/trading/fee/pairsData'
 import { onRoundBalance } from 'services/trading/utils'
+import { SettingPopup } from 'components/'
 import {
 	useGetCustomTokensBalance,
 	useGetNativeTokenBalance,
@@ -308,6 +313,14 @@ const TradingPage = ({ outputValue, outputToken }) => {
 	}
 	return (
 		<div className='trading-page'>
+			<div className='header-icon' id='setting-popup'>
+				<FontAwesomeIcon
+					onClick={() => data.setIsOpenSetting(true)}
+					icon={faCog}
+					className='icon'
+				/>
+				{data.isOpenSetting ? <SettingPopup /> : null}
+			</div>
 			<div className='trading-top'>
 				<div className='header'>
 					<span className='prefix'>From</span>

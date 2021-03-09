@@ -23,6 +23,7 @@ input::-webkit-inner-spin-button {
 	background-color: rgba(0,0,0,0.75);
 	border-radius: 10px;
 	padding:20px;
+	padding-top:30px;
 	box-sizing: border-box;
 	width:450px;
 	height: auto;
@@ -129,6 +130,24 @@ input::-webkit-inner-spin-button {
 .trading-bottom .input-container img {
 	width:40px;
 	height:40px;
+}
+.trading-page .header-icon {
+	position:absolute;
+	top:10px;
+	right:10px;
+	cursor: pointer;
+	transition: all .3s;
+
+}
+.overlay {
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+}
+.trading-page .header-icon .icon:hover {
+	color:rgb(44, 47, 54);
 }
 .trading-bottom .token-select-output {
 	display: flex;

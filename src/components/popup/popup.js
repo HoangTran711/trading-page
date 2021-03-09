@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useContext } from 'react'
 import { MyContext } from 'Context/MyContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -101,6 +101,101 @@ export const PopupSuccess = ({ title, content }) => {
 						<a>Close</a>
 					</div>
 				</div>
+			</div>
+		</div>
+	)
+}
+export const SettingPopup = () => {
+	const data = useContext(MyContext)
+	const [active, setActive] = React.useState({
+		active: `percent-${
+			data.slippage
+				? data.slippage === 1
+					? '1'
+					: data.slippage === 1.5
+					? '2'
+					: data.slippage === 2
+					? '3'
+					: '4'
+				: '1'
+		}`,
+		prevActive: '',
+	})
+	console.log('active', active)
+	const onClickPercent = (item) => {
+		setActive({
+			active: item,
+			prevActive: active.active,
+		})
+	}
+	React.useEffect(() => {
+		if (active.prevActive) {
+			document
+				.querySelector(`.setting-popup .${active.prevActive}`)
+				.classList.remove('active')
+		}
+		document
+			.querySelector(`.setting-popup .${active.active}`)
+			.classList.add('active')
+	}, [active.active, active.prevActive])
+	return (
+		<div className='setting-popup'>
+			<div className='content-setting'>
+				<span className='title'>Slippage</span>
+				<div className='slippage'>
+					<div
+						onClick={() => {
+							onClickPercent('percent-1')
+							data.setSlippage(1)
+						}}
+						className='item percent-1'
+					>
+						<span>1%</span>
+					</div>
+					<div
+						onClick={() => {
+							onClickPercent('percent-2')
+							data.setSlippage(1.5)
+						}}
+						className='item percent-2'
+					>
+						<span>1.5%</span>
+					</div>
+					<div
+						onClick={() => {
+							onClickPercent('percent-3')
+							data.setSlippage(2)
+						}}
+						className='item percent-3'
+					>
+						<span>2%</span>
+					</div>
+					<div className='input-txt'>
+						<input
+							value={
+								data.slippage !== 1 &&
+								data.slippage !== 1.5 &&
+								data.slippage !== 2
+									? data.slippage
+									: ''
+							}
+							onChange={(e) => {
+								const value = parseFloat(e.target.value)
+								if (!isNaN(value)) {
+									data.setSlippage(e.target.value)
+								}
+							}}
+							type='number'
+							className='percent-4'
+							onClick={() => onClickPercent('percent-4')}
+						/>
+					</div>
+				</div>
+				{/* <div className='btn-pop-container'>
+					<div className='btn-popup'>
+						<a>Done</a>
+					</div>
+				</div> */}
 			</div>
 		</div>
 	)

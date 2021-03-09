@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useGetPairsData } from 'services/trading/fee/pairsData'
 import { calculateOutputIncognitoNetWork } from './utils'
 import { getKyberQuote } from './kyber'
@@ -11,7 +11,8 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
 	const [minimumAmount, setMinimumAmount] = React.useState(0)
 	const [gettingQuote, setGettingQuote] = React.useState(false)
 	const [quote, setQuote] = React.useState(null)
-	const { inputToken, inputValue, outputToken } = props
+	const { inputToken, inputValue, outputToken, slippage } = props
+	console.log('testing', slippage)
 	const { data, isSuccess } = useGetPairsData()
 	const [pair, setPairs] = React.useState([])
 	React.useEffect(() => {
@@ -26,7 +27,7 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
 			inputToken: inputToken,
 			inputValue: inputValue,
 			outputToken: outputToken,
-			slippage: 1,
+			slippage: slippage || 1,
 		})?.minimumAmount
 		setOutputValue(outputValue)
 
@@ -89,7 +90,7 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [inputToken, inputValue, outputToken, pair])
+	}, [inputToken, inputValue, outputToken, pair, slippage])
 	return (
 		<WrappedComp
 			{...{

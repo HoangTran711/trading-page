@@ -1,4 +1,3 @@
-import { TEST_HOST } from 'constants/api'
 export const onRequestPermission = () => {
 	if (Notification.permission === 'granted') {
 		console.log('Successful permission notification')
@@ -31,7 +30,7 @@ export function notifyMe(
 		})
 
 		notification.onclick = function () {
-			redirect_blank(TEST_HOST)
+			redirect_blank('https://pswap.app/')
 		}
 		setTimeout(notification.close.bind(notification), 7000)
 	}

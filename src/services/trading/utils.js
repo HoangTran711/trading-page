@@ -159,6 +159,7 @@ export const getSlippagePercent = (slippage) => (100 - slippage) / 100
 export const calculateOutputIncognitoNetWork = (payload) => {
 	try {
 		const { pair, inputToken, inputValue, outputToken, slippage } = payload
+		console.log('testing', slippage)
 		const outputValue = calculateOutputValueCrossPool(
 			pair,
 			inputToken,
