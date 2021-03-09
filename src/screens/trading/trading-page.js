@@ -39,7 +39,6 @@ const TradingPage = ({ outputValue, outputToken }) => {
 	const [isErrorReceive, setIsErrorReceive] = React.useState(false)
 	const [accountTrading, setAccountTrading] = React.useState(null)
 	const [isLoading, setIsLoading] = React.useState(false)
-	const [isSuccess, setIsSuccess] = React.useState(false)
 	const { data: pairs, isSuccess: fetchedPairs } = useGetPairsData()
 	const [poolSize, setPoolSize] = React.useState({
 		output1: null,
@@ -211,7 +210,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 							title: 'Connect',
 							content: 'Successful connection',
 						})
-						setIsSuccess(true)
+						data.setIsConnectSuccess(true)
 						setIsLoading(false)
 					} else {
 						data.setConnectSuccess({
@@ -447,12 +446,13 @@ const TradingPage = ({ outputValue, outputToken }) => {
 				</div>
 			</div>
 
-			{!isSuccess ? (
+			{!data.isConnectSuccess ? (
 				<div
 					onClick={() => {
 						onOpenExtension()
 						onHandleConnectWallet()
 					}}
+					id='btn-connect-wallet'
 					className={`btn-primary cursor-pointer mt-4 ${
 						isLoading ? 'pointer-events-none opacity-70' : ''
 					}`}
@@ -469,6 +469,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 						onOpenExtension()
 						onHandleSwap()
 					}}
+					id='btn-swap'
 					className={`btn-primary cursor-pointer mt-4 ${
 						isLoading ? 'pointer-events-none opacity-70' : ''
 					}  ${outputValue ? '' : 'pointer-events-none opacity-70'}`}

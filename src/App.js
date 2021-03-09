@@ -47,6 +47,7 @@ function App() {
 	const [amount, setAmount] = React.useState('0')
 	const [linkDetail, setLinkDetail] = React.useState('')
 	const [tradeDetail, setTradeDetail] = React.useState([])
+	const [isConnectSuccess, setIsConnectSuccess] = React.useState(false)
 	const [connectFailed, setConnectFailed] = React.useState({
 		title: '',
 		content: '',
@@ -175,6 +176,8 @@ function App() {
 				setIsOpenSetting,
 				slippage: slippage,
 				setSlippage,
+				isConnectSuccess,
+				setIsConnectSuccess,
 			}}
 		>
 			<div>

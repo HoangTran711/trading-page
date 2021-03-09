@@ -1,16 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import { Tooltip } from 'components/Tooltips/Tooltips'
 import logo from '../../assets/logo.png'
+import { MyContext } from 'Context/MyContext'
 import './Navbar.css'
 
 export const Navbar = () => {
+	const data = React.useContext(MyContext)
 	const handleScroll = () => {
 		if (window.scrollY > 20) {
 			document.querySelector('.navbar').classList.add('scrolled')
 		} else {
 			document.querySelector('.navbar').classList.remove('scrolled')
 		}
+	}
+	const onHandleConnect = () => {
+		document.querySelectorAll('#btn-connect-wallet')[0].click()
+	}
+	const onHandleSwap = () => {
+		document.querySelectorAll('#btn-swap')[0].click()
 	}
 	React.useEffect(() => {
 		window.addEventListener('scroll', handleScroll)
@@ -33,11 +40,16 @@ export const Navbar = () => {
 					<li className="menu-item">LSB Token</li> */}
 				</ul>
 			</div>
-			<Tooltip>
-				<div className='cursor-not-allowed btn-trans'>
-					<a className='btn cursor-not-allowed'>Connect LSB Wallet</a>
+
+			{!data.isConnectSuccess ? (
+				<div onClick={onHandleConnect} className='btn-trans cursor-pointer'>
+					<a>Connect LSB Wallet</a>
 				</div>
-			</Tooltip>
+			) : (
+				<div onClick={onHandleSwap} className='btn-trans cursor-pointer'>
+					<a>Swap</a>
+				</div>
+			)}
 		</div>
 	)
 }
