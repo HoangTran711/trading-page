@@ -27,7 +27,7 @@ export const withCalculateOutput = (WrappedComp) => (props) => {
 			inputToken: inputToken,
 			inputValue: inputValue,
 			outputToken: outputToken,
-			slippage: slippage || 1,
+			slippage: slippage || '',
 		})?.minimumAmount
 		setOutputValue(outputValue)
 

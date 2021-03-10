@@ -48,6 +48,10 @@ function App() {
 	const [linkDetail, setLinkDetail] = React.useState('')
 	const [tradeDetail, setTradeDetail] = React.useState([])
 	const [isConnectSuccess, setIsConnectSuccess] = React.useState(false)
+	const [activeSlippage, setActiveSlippage] = React.useState({
+		active: 'percent-1',
+		prevActive: '',
+	})
 	const [connectFailed, setConnectFailed] = React.useState({
 		title: '',
 		content: '',
@@ -178,6 +182,8 @@ function App() {
 				setSlippage,
 				isConnectSuccess,
 				setIsConnectSuccess,
+				activeSlippage,
+				setActiveSlippage,
 			}}
 		>
 			<div>

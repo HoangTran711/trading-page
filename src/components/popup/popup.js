@@ -107,37 +107,22 @@ export const PopupSuccess = ({ title, content }) => {
 }
 export const SettingPopup = () => {
 	const data = useContext(MyContext)
-	const [active, setActive] = React.useState({
-		active: `percent-${
-			data.slippage
-				? data.slippage === 1
-					? '1'
-					: data.slippage === 1.5
-					? '2'
-					: data.slippage === 2
-					? '3'
-					: '4'
-				: '1'
-		}`,
-		prevActive: '',
-	})
-	console.log('active', active)
 	const onClickPercent = (item) => {
-		setActive({
+		data.setActiveSlippage({
 			active: item,
-			prevActive: active.active,
+			prevActive: data.activeSlippage.active,
 		})
 	}
 	React.useEffect(() => {
-		if (active.prevActive) {
+		if (data.activeSlippage.prevActive) {
 			document
-				.querySelector(`.setting-popup .${active.prevActive}`)
+				.querySelector(`.setting-popup .${data.activeSlippage.prevActive}`)
 				.classList.remove('active')
 		}
 		document
-			.querySelector(`.setting-popup .${active.active}`)
+			.querySelector(`.setting-popup .${data.activeSlippage.active}`)
 			.classList.add('active')
-	}, [active.active, active.prevActive])
+	}, [data.activeSlippage.active, data.activeSlippage.prevActive])
 	return (
 		<div className='setting-popup'>
 			<div className='content-setting'>
@@ -172,18 +157,10 @@ export const SettingPopup = () => {
 					</div>
 					<div className='input-txt'>
 						<input
-							value={
-								data.slippage !== 1 &&
-								data.slippage !== 1.5 &&
-								data.slippage !== 2
-									? data.slippage
-									: ''
-							}
+							defaultValue={data.slippage || 1}
 							onChange={(e) => {
 								const value = parseFloat(e.target.value)
-								if (!isNaN(value)) {
-									data.setSlippage(e.target.value)
-								}
+								data.setSlippage(value)
 							}}
 							type='number'
 							className='percent-4'

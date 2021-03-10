@@ -65,7 +65,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		setIsErrorReceive(true)
 	}
 	const onOpenExtension = () => {
-		var url = 'chrome-extension://deebmnkijhopcgcbjihnneepmaandjgk/index.html'
+		var url = 'chrome-extension://bmoeljkahcfgehdkfkeafinpnfmkabda/index.html'
 		window.open(
 			url,
 			'extension_popup',
@@ -89,7 +89,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		}
 		setIsLoading(true)
 		chrome.runtime.sendMessage(
-			'deebmnkijhopcgcbjihnneepmaandjgk',
+			'bmoeljkahcfgehdkfkeafinpnfmkabda',
 			obj,
 			(response) => {
 				if (chrome.runtime.lastError) {
@@ -164,7 +164,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		}
 
 		chrome.runtime.sendMessage(
-			'deebmnkijhopcgcbjihnneepmaandjgk',
+			'bmoeljkahcfgehdkfkeafinpnfmkabda',
 			obj,
 			(response) => {
 				if (chrome.runtime.lastError) {
