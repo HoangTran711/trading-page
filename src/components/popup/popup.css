@@ -34,12 +34,18 @@
 .popup .view-on .icon{
 	font-size:40px;
 }
-.popup .heading-popup .icon {
+.heading-popup .icon {
 	font-size:20px;
 	cursor: pointer;
 	transition:all .3s;
 	color: #01DFD7;
 	
+}
+.heading-popup .icon:hover {
+	color:#04b8b2;
+}
+.heading-popup .icon:active {
+	color:#05918c;
 }
 .popup .heading-popup .icon:hover {
 	color:#E6E6E6;
@@ -159,6 +165,58 @@
 .setting-popup .heading {
 	margin:10px;
 	font-size: 20px;
+	font-weight: 600;
+	
+}
+.info-account {
+	position: absolute;
+	top:50%;
+	left:50%;
+	z-index: 100000000000;
+	transform: translate(-50%,-50%);
+	background-color: white;
+	border-radius: 5px;
+	animation: moveOpacity .3s;
+	animation-fill-mode: forwards;
+}
+.info-account .txt-frame {
+	display: flex;
+	flex-direction: column;
+	padding:20px;
+}
+.info-account .txt-frame .payment-address {
+	color:#6A0888;
+	font-weight: 600;
+}
+.info-account .payment-copy {
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width:150px;
+	height:35px;
+	border-radius: 20px;
+	transition: all .3s;
+	font-weight: 600;
+	color:#01DFD7;
+	cursor: pointer;
+	transition:all .3s;
+	background-color: rgba(216,216,216,0.2);
+}
+.info-account .payment-copy .icon-copy {
+	margin-left: 5px;
+
+}
+.info-account .payment-copy:hover {
+	color:#08b9b9;
+}
+.info-account .payment-copy:active {
+	background-color:#01DFD7;
+	color: white;
+}
+.info-account .btn-logout {
+	justify-content: center;
+	align-items: center;
 	font-weight: 600;
 	
 }

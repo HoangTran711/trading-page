@@ -9,6 +9,7 @@ import {
 	faExternalLinkAlt,
 	faThumbsDown,
 } from '@fortawesome/free-solid-svg-icons'
+import { faCopy } from '@fortawesome/free-regular-svg-icons'
 import './popup.css'
 
 export const PopupFailed = ({ title, content }) => {
@@ -81,10 +82,12 @@ export const PopupSuccess = ({ title, content }) => {
 				</div>
 				<div
 					onClick={onHandleViewDetail}
-					className={`content ${title === 'Connect' ? 'connect' : ''}`}
+					className={`content ${
+						title === 'Connection Request' ? 'connect' : ''
+					}`}
 				>
 					<span>{content}</span>
-					{title !== 'Connect' ? (
+					{title !== 'Connection Request' ? (
 						<FontAwesomeIcon icon={faExternalLinkAlt} className='icon' />
 					) : null}
 				</div>
@@ -173,6 +176,55 @@ export const SettingPopup = () => {
 						<a>Done</a>
 					</div>
 				</div> */}
+			</div>
+		</div>
+	)
+}
+export const PopupInfoAccount = () => {
+	const data = React.useContext(MyContext)
+	const onHandleInfoAccount = () => {
+		data.setIsOpenInfoAccount(!data.isOpenInfoAccount)
+	}
+	const onLogoutAccount = () => {
+		onHandleInfoAccount()
+		localStorage.removeItem('account-trade')
+		data.setAccountTrading({
+			accountName: '',
+			paymentAddress: '',
+			privateKey: '',
+			dataExpiration: '',
+		})
+	}
+	const onCopyAddress = () => {
+		const elem = document.createElement('textarea')
+		document.body.appendChild(elem)
+		elem.value = data.accountTrading.paymentAddress
+		elem.select()
+		document.execCommand('copy')
+		document.body.removeChild(elem)
+	}
+	return (
+		<div className='info-account'>
+			<div className='heading-popup'>
+				<h4>Your Wallet</h4>
+				<FontAwesomeIcon
+					onClick={onHandleInfoAccount}
+					className='icon cursor-pointer'
+					icon={faTimes}
+				/>
+			</div>
+			<div className='txt-frame'>
+				<span className='payment-address'>
+					{data.accountTrading.paymentAddress.substr(0, 55) + '...'}
+				</span>
+				<span onClick={onCopyAddress} className='payment-copy'>
+					Copy Address <FontAwesomeIcon className='icon-copy' icon={faCopy} />
+				</span>
+				<div className='btn-pop-container btn-logout'>
+					<div onClick={onLogoutAccount} className='btn-popup'>
+						<a>Logout</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

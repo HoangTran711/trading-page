@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import logo from '../../assets/logo.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { MyContext } from 'Context/MyContext'
 import './Navbar.css'
 
@@ -16,8 +18,8 @@ export const Navbar = () => {
 	const onHandleConnect = () => {
 		document.querySelectorAll('#btn-connect-wallet')[0].click()
 	}
-	const onHandleSwap = () => {
-		document.querySelectorAll('#btn-swap')[0].click()
+	const onHandleInfoAccount = () => {
+		data.setIsOpenInfoAccount(!data.isOpenInfoAccount)
 	}
 	React.useEffect(() => {
 		window.addEventListener('scroll', handleScroll)
@@ -41,13 +43,25 @@ export const Navbar = () => {
 				</ul>
 			</div>
 
-			{!data.isConnectSuccess ? (
+			{!data.accountTrading.privateKey &&
+			!data.accountTrading.paymentAddress ? (
 				<div onClick={onHandleConnect} className='btn-trans cursor-pointer'>
 					<a>Connect LSB Wallet</a>
 				</div>
 			) : (
-				<div onClick={onHandleSwap} className='btn-trans cursor-pointer'>
-					<a>Swap</a>
+				<div
+					onClick={onHandleInfoAccount}
+					className='account-nav cursor-pointer'
+				>
+					<span>
+						{data.accountTrading.paymentAddress.substr(0, 8) +
+							'...' +
+							data.accountTrading.paymentAddress.substr(
+								data.accountTrading.paymentAddress.length - 8,
+								data.accountTrading.paymentAddress.length
+							)}
+					</span>
+					<FontAwesomeIcon icon={faUserCircle} className='icon-avt' />
 				</div>
 			)}
 		</div>

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import { Navbar } from './components/Navbar/Navbar'
-import { PopupFailed, PopupSuccess } from './components'
+import { PopupFailed, PopupSuccess, PopupInfoAccount } from './components'
 import { getTransactionByTxId } from 'services/trading/wallet'
 import { PopupTransaction, Trading } from './screens'
 import { MyContext } from 'Context/MyContext'
@@ -48,6 +48,15 @@ function App() {
 	const [linkDetail, setLinkDetail] = React.useState('')
 	const [tradeDetail, setTradeDetail] = React.useState([])
 	const [isConnectSuccess, setIsConnectSuccess] = React.useState(false)
+	const [isOpenInfoAccount, setIsOpenInfoAccount] = React.useState(false)
+	const [accountTrading, setAccountTrading] = React.useState(
+		JSON.parse(localStorage.getItem('account-trade')) || {
+			accountName: '',
+			paymentAddress: '',
+			privateKey: '',
+			dataExpiration: '',
+		}
+	)
 	const [activeSlippage, setActiveSlippage] = React.useState({
 		active: 'percent-1',
 		prevActive: '',
@@ -61,6 +70,16 @@ function App() {
 		content: '',
 	})
 	const [isOpenSelectTokens, setIsOpenSelectTokens] = React.useState(false)
+	const onHandleExpirationAccount = () => {
+		const now = new Date().getTime()
+		console.log(now)
+		if (accountTrading.privateKey) {
+			console.log(accountTrading.dataExpiration, now)
+			if (accountTrading.dataExpiration <= now) {
+				localStorage.removeItem('account-trade')
+			}
+		}
+	}
 	const onHandleGetTradeDetail = async (idSent) => {
 		//Will update soon
 		const hisTrade = JSON.parse(localStorage.getItem('his_trade'))
@@ -143,6 +162,7 @@ function App() {
 	}, [isSuccess])
 	React.useEffect(() => {
 		let idSent = []
+		onHandleExpirationAccount()
 		onRequestPermission()
 		onHandleGetTradeDetail()
 		let fetchDetail = setInterval(async () => {
@@ -151,6 +171,7 @@ function App() {
 		return () => clearInterval(fetchDetail)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+	console.log('account trading', accountTrading)
 	return (
 		<MyContext.Provider
 			value={{
@@ -184,11 +205,20 @@ function App() {
 				setIsConnectSuccess,
 				activeSlippage,
 				setActiveSlippage,
+				accountTrading: accountTrading,
+				setAccountTrading,
+				isOpenInfoAccount: isOpenInfoAccount,
+				setIsOpenInfoAccount,
 			}}
 		>
 			<div>
 				{isOpenSelectTokens ? <SelectToken /> : null}
 				<Navbar />
+				{isOpenInfoAccount &&
+				accountTrading?.privateKey &&
+				accountTrading?.paymentAddress ? (
+					<PopupInfoAccount />
+				) : null}
 				{isOpenSetting ? (
 					<div className='overlay' onClick={() => setIsOpenSetting(false)} />
 				) : null}

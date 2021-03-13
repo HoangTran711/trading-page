@@ -37,7 +37,6 @@ const TradingPage = ({ outputValue, outputToken }) => {
 	})
 
 	const [isErrorReceive, setIsErrorReceive] = React.useState(false)
-	const [accountTrading, setAccountTrading] = React.useState(null)
 	const [isLoading, setIsLoading] = React.useState(false)
 	const { data: pairs, isSuccess: fetchedPairs } = useGetPairsData()
 	const [poolSize, setPoolSize] = React.useState({
@@ -53,10 +52,10 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		showWarning: false,
 	})
 	const { data: balanceTokens } = useGetCustomTokensBalance(
-		accountTrading?.privateKey
+		data.accountTrading?.privateKey
 	)
 	const { data: balanceNativeToken } = useGetNativeTokenBalance(
-		accountTrading?.privateKey
+		data.accountTrading?.privateKey
 	)
 	const onErrorLoadImageSell = () => {
 		setIsErrorSell(true)
@@ -65,7 +64,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		setIsErrorReceive(true)
 	}
 	const onOpenExtension = () => {
-		var url = 'chrome-extension://bmoeljkahcfgehdkfkeafinpnfmkabda/index.html'
+		var url = 'chrome-extension://ahmoeicigpfdghcondeknofjbgjomekh/index.html'
 		window.open(
 			url,
 			'extension_popup',
@@ -81,7 +80,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 			sellAmount: (
 				data.amount * Math.pow(10, data.tokenSell.pDecimals)
 			).toString(),
-			accountName: accountTrading.accountName,
+			accountName: data.accountTrading.accountName,
 		}
 		const obj = {
 			title: 'request_swap_token',
@@ -89,7 +88,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		}
 		setIsLoading(true)
 		chrome.runtime.sendMessage(
-			'bmoeljkahcfgehdkfkeafinpnfmkabda',
+			'ahmoeicigpfdghcondeknofjbgjomekh',
 			obj,
 			(response) => {
 				if (chrome.runtime.lastError) {
@@ -162,9 +161,10 @@ const TradingPage = ({ outputValue, outputToken }) => {
 			title: 'request_connect_wallet',
 			data: '',
 		}
-
+		const title = 'Connection Request'
+		const connectError = 'Failed to connect'
 		chrome.runtime.sendMessage(
-			'bmoeljkahcfgehdkfkeafinpnfmkabda',
+			'ahmoeicigpfdghcondeknofjbgjomekh',
 			obj,
 			(response) => {
 				if (chrome.runtime.lastError) {
@@ -178,8 +178,8 @@ const TradingPage = ({ outputValue, outputToken }) => {
 							content: '',
 						})
 						data.setConnectFailed({
-							title: 'Connect',
-							content: 'Connection failed',
+							title: title,
+							content: connectError,
 						})
 						setIsLoading(false)
 					}
@@ -195,20 +195,27 @@ const TradingPage = ({ outputValue, outputToken }) => {
 								content: '',
 							})
 							data.setConnectFailed({
-								title: 'Connect',
-								content: 'Connection failed',
+								title: title,
+								content: connectError,
 							})
 							setIsLoading(false)
 						}
 					} else if (response.status === 'successfully') {
-						setAccountTrading(response.data)
+						data.setAccountTrading(response.data)
+						localStorage.setItem(
+							'account-trade',
+							JSON.stringify({
+								...response.data,
+								dataExpiration: new Date().getTime() + 180000,
+							})
+						)
 						data.setConnectFailed({
 							title: '',
 							content: '',
 						})
 						data.setConnectSuccess({
-							title: 'Connect',
-							content: 'Successful connection',
+							title: title,
+							content: 'Successfully connected',
 						})
 						data.setIsConnectSuccess(true)
 						setIsLoading(false)
@@ -224,15 +231,15 @@ const TradingPage = ({ outputValue, outputToken }) => {
 								}, 1000)
 							} else {
 								data.setConnectFailed({
-									title: 'Connect',
+									title: title,
 									content: 'Please login before connected to your wallet!',
 								})
 								setIsLoading(false)
 							}
 						} else {
 							data.setConnectFailed({
-								title: 'Connect',
-								content: 'Connection failed!',
+								title: title,
+								content: connectError,
 							})
 							setIsLoading(false)
 						}
@@ -446,7 +453,8 @@ const TradingPage = ({ outputValue, outputToken }) => {
 				</div>
 			</div>
 
-			{!data.isConnectSuccess ? (
+			{!data.accountTrading.privateKey &&
+			!data.accountTrading.paymentAddress ? (
 				<div
 					onClick={() => {
 						onOpenExtension()
