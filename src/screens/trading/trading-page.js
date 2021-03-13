@@ -64,7 +64,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		setIsErrorReceive(true)
 	}
 	const onOpenExtension = () => {
-		var url = 'chrome-extension://ahmoeicigpfdghcondeknofjbgjomekh/index.html'
+		var url = 'chrome-extension://bmoeljkahcfgehdkfkeafinpnfmkabda/index.html'
 		window.open(
 			url,
 			'extension_popup',
@@ -88,7 +88,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		}
 		setIsLoading(true)
 		chrome.runtime.sendMessage(
-			'ahmoeicigpfdghcondeknofjbgjomekh',
+			'bmoeljkahcfgehdkfkeafinpnfmkabda',
 			obj,
 			(response) => {
 				if (chrome.runtime.lastError) {
@@ -164,7 +164,7 @@ const TradingPage = ({ outputValue, outputToken }) => {
 		const title = 'Connection Request'
 		const connectError = 'Failed to connect'
 		chrome.runtime.sendMessage(
-			'ahmoeicigpfdghcondeknofjbgjomekh',
+			'bmoeljkahcfgehdkfkeafinpnfmkabda',
 			obj,
 			(response) => {
 				if (chrome.runtime.lastError) {
